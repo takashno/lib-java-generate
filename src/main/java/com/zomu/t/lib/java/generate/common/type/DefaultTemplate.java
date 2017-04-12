@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum DefaultTemplate {
 
 	/** Java8用デフォルトテンプレートパス */
-	JAVA8("com/zomu/t/java/generate/component/java8/templates/JavaClass.mustache");
+	JAVA8("com/zomu/t/lib/java/generate/java8/templates/JavaClass.mustache");
 
 	/** パス */
 	private String path;
