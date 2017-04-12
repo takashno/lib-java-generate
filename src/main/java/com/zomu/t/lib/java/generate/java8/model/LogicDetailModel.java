@@ -8,30 +8,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.Delegate;
+import lombok.Singular;
 
 /**
- * JavaDocのアノテーションを表すモデル.
+ * ロジック詳細を表すモデル.
  * 
  * @author takashimanozomu
- *
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JavaDocAnnotationModel implements Serializable {
+public class LogicDetailModel implements Serializable {
 
 	/** デフォルトシリアルバージョンUID */
 	private static final long serialVersionUID = 1L;
 
-	/** アノテーション名 */
-	@NonNull
-	private String name;
+	/** テンプレートパス（こちらが指定されていれば優先する） */
+	private String templatePath;
 
-	/** コンテンツ */
-	@Delegate
-	private final List<String> contents = new ArrayList<>();
+	/** スコープ（こちらが指定されていれば優先する） */
+	@Singular
+	private List<Object> scopes = new ArrayList<>();
 
 }

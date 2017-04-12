@@ -21,6 +21,8 @@ public enum TypeModifier {
 
 	/**
 	 * 文字列表現を返却します.
+	 * 
+	 * @return 文字列表現
 	 */
 	@Override
 	public String toString() {

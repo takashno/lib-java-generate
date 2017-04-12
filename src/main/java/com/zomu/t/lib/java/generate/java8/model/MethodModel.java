@@ -41,7 +41,7 @@ public class MethodModel implements Serializable {
 	private List<MethodModifier> methodModifier = new ArrayList<>();
 
 	/** 型 */
-	private ClassModel resultType;
+	private ReturnModel returnType;
 
 	/** 名称 */
 	@NonNull

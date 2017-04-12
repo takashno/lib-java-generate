@@ -140,7 +140,7 @@ public class FieldUtils {
 	}
 
 	/**
-	 * java.lang.Boolean用のフィールドモデルを取得します.
+	 * java.lang.Byte用のフィールドモデルを取得します.
 	 * 
 	 * @param fieldName
 	 *            フィールド名

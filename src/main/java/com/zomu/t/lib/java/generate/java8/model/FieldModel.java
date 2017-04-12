@@ -51,4 +51,7 @@ public class FieldModel implements Serializable {
 	/** 初期値 */
 	private String initializationValue;
 
+	/** 配列フラグ */
+	private boolean array = false;
+
 }

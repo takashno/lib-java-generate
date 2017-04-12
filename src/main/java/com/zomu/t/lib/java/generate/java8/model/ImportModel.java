@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * インポートを表すモデル.
  * 
  * @author takashimanozomu
  */

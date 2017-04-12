@@ -35,12 +35,30 @@ public abstract class JavaConverter {
 	protected abstract void before(ConvertContext context);
 
 	/**
+	 * 個別変換対象 - 前処理
+	 * 
+	 * @param context
+	 *            {@link ConvertContext}
+	 */
+	protected abstract void beforeTarget(ConvertContext context,
+			ConvertTarget convertTarget) throws Exception;
+
+	/**
 	 * 後処理
 	 * 
 	 * @param context
 	 *            {@link ConvertContext}
 	 */
 	protected abstract void after(ConvertContext context);
+
+	/**
+	 * 個別変換対象 - 後処理
+	 * 
+	 * @param context
+	 *            {@link ConvertContext}
+	 */
+	protected abstract void afterTarget(ConvertContext context,
+			ConvertTarget convertTarget) throws Exception;
 
 	/**
 	 * 変換処理
@@ -77,23 +95,31 @@ public abstract class JavaConverter {
 				continue;
 			}
 
-			log.debug("--- convert #{} ---", (i + 1));
-			log.debug("template     : {}", target.getTemplatePath());
-			log.debug("clazz        : {}", target.getClazz().toString());
-			log.debug("scope size   : {}", target.getScopes().size());
-
-			// テンプレートのコンパイル
-			Mustache m = mf.compile(target.getTemplatePath());
-
-			// スコープの変換
-			List<Object> scopes = new ArrayList<>();
-			scopes.add(target.getClazz());
-			scopes.addAll(target.getScopes());
-
 			try {
+
+				// 個別変換対象 - 前処理
+				beforeTarget(context, target);
+
+				log.debug("--- convert #{} ---", (i + 1));
+				log.debug("template     : {}", target.getTemplatePath());
+				log.debug("clazz        : {}", target.getClazz().toString());
+				log.debug("scope size   : {}", target.getScopes().size());
+
+				// テンプレートのコンパイル
+				Mustache m = mf.compile(target.getTemplatePath());
+
+				// スコープの変換
+				List<Object> scopes = new ArrayList<>();
+				scopes.add(target.getClazz());
+				scopes.addAll(target.getScopes());
+
 				// 変換処理
 				m.execute(target.getOutputWriter(), scopes.toArray()).flush();
-			} catch (IOException e) {
+
+				// 個別変換対象 - 後処理
+				afterTarget(context, target);
+
+			} catch (Exception e) {
 				if (context.isOnErrorResume()) {
 					// エラーが出ても続ける場合は、そのまま続行.
 					ConvertFailureTarget cft = new ConvertFailureTarget(target,

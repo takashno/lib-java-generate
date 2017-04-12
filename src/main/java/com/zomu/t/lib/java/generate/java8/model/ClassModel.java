@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Singular;
 
 import com.zomu.t.lib.java.generate.common.model.Clazz;
 import com.zomu.t.lib.java.generate.java8.type.AccessModifier;
@@ -51,7 +52,8 @@ public class ClassModel implements Clazz, Serializable {
 	private TypeModifier typeModifier;
 
 	/** クラス種別 */
-	@NonNull
+//	@NonNull
+	@Builder.Default
 	private ClassKind classKind = ClassKind.CLASS;
 
 	/** クラス名 */
@@ -62,22 +64,26 @@ public class ClassModel implements Clazz, Serializable {
 	private ClassModel superClass;
 
 	/** 実装インタフェース */
+	@Singular
 	private List<ClassModel> implementsClasses = new ArrayList<>();
 
 	/** 総称型 */
+	@Singular
 	private List<ClassModel> genericTypes = new ArrayList<>();
 
 	/** フィールド */
+	@Singular
 	private List<FieldModel> fields = new ArrayList<>();
 
 	/** メソッド */
+	@Singular
 	private List<MethodModel> methods = new ArrayList<>();
 
 	/** プリミティブ型フラグ */
-	private boolean primitive;
+	private boolean primitive = false;
 
 	/** 最終フラグ */
-	private boolean last;
+	private boolean last = false;
 
 	/**
 	 * 総称型を保持しているかどうか判定します.

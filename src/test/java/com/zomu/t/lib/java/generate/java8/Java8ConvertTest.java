@@ -17,13 +17,14 @@ import com.zomu.t.lib.java.generate.java8.model.ImportModel;
 import com.zomu.t.lib.java.generate.java8.model.JavaDocAnnotationModel;
 import com.zomu.t.lib.java.generate.java8.model.JavaDocModel;
 import com.zomu.t.lib.java.generate.java8.model.MethodModel;
+import com.zomu.t.lib.java.generate.java8.model.ReturnModel;
 import com.zomu.t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu.t.lib.java.generate.java8.util.FieldUtils;
 import com.zomu.t.lib.java.generate.java8.util.JavaDocUtils;
 import com.zomu.t.lib.java.generate.java8.util.TypeUtils;
 
 @Slf4j
-public class Test {
+public class Java8ConvertTest {
 
 	/**
 	 * 
@@ -161,7 +162,9 @@ public class Test {
 		// メソッド1
 		MethodModel mm1 = new MethodModel();
 		mm1.setAccessModifier(AccessModifier.PUBLIC);
-		mm1.setResultType(TypeUtils.getStringClassModel());
+		ReturnModel rm1 = ReturnModel.builder()
+				.type(TypeUtils.getStringClassModel()).build();
+		mm1.setReturnType(rm1);
 		mm1.setName("method1");
 		mm1.getAnnotations().add(
 				new AnnotationModel("com.example", "GetMapping", false));
@@ -170,15 +173,17 @@ public class Test {
 		jdam3.add("test");
 		jdam3.add("テスト値");
 		mm1.setJavaDoc(JavaDocUtils.getMethodJavaDocModel("メソッド1です.", jdam3));
-		mm1.getArgs().add(
-				new ArgModel(null, null, TypeUtils.getStringClassModel(),
-						"arg1", false));
-		mm1.getArgs().add(
-				new ArgModel(null, null, TypeUtils.getStringClassModel(),
-						"arg2", true));
+		ArgModel am1 = ArgModel.builder().type(TypeUtils.getStringClassModel())
+				.name("arg1").build();
+		mm1.getArgs().add(am1);
+		ArgModel am2 = ArgModel.builder().type(TypeUtils.getStringClassModel())
+				.name("arg2").build();
+		mm1.getArgs().add(am2);
 		mm1.getThrowsTypes().add(
 				TypeUtils.getGenericClassModel("com.example",
 						"OriginalException"));
+
+		// mm1.setLogic(LogicModel.builder().name("hoge").build());
 
 		clazz.getMethods().add(mm1);
 
