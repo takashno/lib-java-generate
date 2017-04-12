@@ -1,0 +1,51 @@
+{{commentHeader}}
+package {{packageName}};
+
+{{#imports}}
+import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{className}}{{/className}}{{#methodName}}.{{methodName}}{{/methodName}}{{#wildcard}}.*{{/wildcard}};
+{{/imports}}
+
+{{#javaDoc}}
+/**
+{{#inheritDoc}} * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}} * {{.}}<br>
+{{/mainContents}}
+ *
+{{#annotations}} * @{{name}} {{#contents}}{{.}} {{/contents}}
+{{/annotations}}
+ *
+{{/inheritDoc}}
+ */
+{{/javaDoc}}
+{{#annoatations}}@{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
+{{/annoatations}}
+{{#accessModifier}}{{.}} {{/accessModifier}}{{#typeModifier}}{{.}} {{/typeModifier}}{{classKind}} {{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{!親クラス}}{{#superClass}} extends {{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{/superClass}}{{!実装クラス}}{{#hasImplementsClasses}} implements {{/hasImplementsClasses}}{{#implementsClasses}}{{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{^last}}, {{/last}}{{/implementsClasses}} {
+
+{{#fields}}{{!フィールド}}
+{{#javaDoc}}    /** {{#mainContents}}{{.}}{{/mainContents}} */{{/javaDoc}}
+{{#annotations}}    @{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
+{{/annotations}}
+    {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifier}}{{.}} {{/fieldModifier}}{{#type}}{{ClassName}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
+
+{{/fields}}
+{{#methods}}{{!メソッド}}
+{{#javaDoc}}
+    /**
+{{#inheritDoc}}     * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}}     * {{.}}<br>
+{{/mainContents}}
+{{#annotations}}
+     *
+{{/annotations}}
+{{#annotations}}     * @{{name}} {{#contents}}{{.}} {{/contents}}
+{{/annotations}}
+     *
+{{/inheritDoc}}
+     */
+{{/javaDoc}}
+{{#annotations}}    @{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
+{{/annotations}}
+    {{#accessModifier}}{{.}} {{/accessModifier}}{{#methodModifier}}{{.}} {{/methodModifier}}{{#resultType}}{{ClassName}}{{/resultType}}{{^resultType}}void{{/resultType}} {{name}}({{#args}}{{#argModifier}}{{.}} {{/argModifier}}{{#annoatations}}@{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}} {{/annoatations}}{{#type}}{{className}}{{/type}} {{name}}{{^last}}, {{/last}}{{/args}}){{#hasThrowTypes}} throws {{/hasThrowTypes}}{{#throwsTypes}}{{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{/throwsTypes}} {
+        {{#logic}}{{logic}}{{/logic}}{{^logic}}// TODO : To Be Logic...{{/logic}}
+    }
+
+{{/methods}}
+}

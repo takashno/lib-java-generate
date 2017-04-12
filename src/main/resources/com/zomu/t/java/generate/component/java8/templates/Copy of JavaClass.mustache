@@ -1,0 +1,56 @@
+{{commentHeader}}
+package {{packageName}};
+
+{{#imports}}
+import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{className}}{{/className}}{{#methodName}}.{{methodName}}{{/methodName}}{{#wildcard}}.*{{/wildcard}};
+{{/imports}}
+
+{{#javaDoc}}
+/**
+{{#inheritDoc}} * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}} * {{.}}<br>
+{{/mainContents}}
+ *
+{{#annotations}} * @{{name}} {{contents}}
+{{/annotations}}
+ *
+{{/inheritDoc}}
+ */
+{{/javaDoc}}
+{{#annoatations}}@{{className}}{{!属性値がなければ括弧を出したくない}}{{#attributes}}({{/attributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{!属性値がなければ括弧を出したくない}}{{#attributes}}){{/attributes}}
+{{/annoatations}}
+{{#accessModifier}}{{.}} {{/accessModifier}}{{#typeModifier}}{{.}} {{/typeModifier}}{{classKind}} {{className}} {
+{{!フィールド部}}
+{{#fields}}{{#annotations}}{{!フィールド部 - アノテーション有の場合}}
+    {{#javaDoc}}/** {{#mainContents}}{{.}}{{/mainContents}} */{{/javaDoc}}
+    {{#annotations}}@{{className}}{{#attributes}}({{/attributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#attributes}}){{/attributes}}{{/annotations}}
+    {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifier}}{{.}} {{/fieldModifier}}{{#type}}{{ClassName}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
+{{/annotations}}
+{{^annotations}}{{!フィールド部 - アノテーション無の場合}}
+    {{#javaDoc}}/** {{#mainContents}}{{.}}{{/mainContents}} */{{/javaDoc}}
+    {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifier}}{{.}} {{/fieldModifier}}{{#type}}{{ClassName}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
+{{/annotations}}
+
+{{/fields}}
+{{!メソッド部}}
+{{#methods}}
+{{#javaDoc}}
+    /**
+{{#inheritDoc}}     * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}}     * {{.}}<br>
+{{/mainContents}}
+{{#annotations}}
+     *
+{{/annotations}}
+{{#annotations}}     * @{{name}} {{contents}}
+{{/annotations}}
+     *
+{{/inheritDoc}}
+     */
+{{/javaDoc}}
+{{#annotations}}    @{{className}}{{#attributes}}({{/attributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#attributes}}){{/attributes}}
+{{/annotations}}
+    {{#accessModifier}}{{.}} {{/accessModifier}}{{#methodModifier}}{{.}} {{/methodModifier}}{{#resultType}}{{ClassName}}{{/resultType}}{{^resultType}}void{{/resultType}} {{name}}({{#args}}{{#type}}{{className}}{{/type}} {{name}}{{^last}}, {{/last}}{{/args}}) {
+        {{#logic}}{{logic}}{{/logic}}{{^logic}}// TODO : To Be Logic...{{/logic}}
+    }
+
+{{/methods}}
+}
