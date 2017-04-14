@@ -39,7 +39,7 @@ public class Java8ConvertTest {
 		ClassModel clazz = new ClassModel();
 
 		// ヘッダーコメント
-		clazz.setCommentHeader("/* test */");
+		clazz.setCommentHeader("/*\n * test \n */");
 
 		// パッケージ
 		clazz.setPackageName("hoge.fuga.piyo");
