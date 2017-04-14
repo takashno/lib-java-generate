@@ -1,4 +1,4 @@
-{{commentHeader}}
+{{& commentHeader}}
 package {{packageName}};
 
 {{#imports}}
@@ -7,10 +7,10 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 
 {{#javaDoc}}
 /**
-{{#inheritDoc}} * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}} * {{.}}<br>
+{{#inheritDoc}} * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}} * {{& .}}<br>
 {{/mainContents}}
  *
-{{#annotations}} * @{{name}} {{#contents}}{{.}} {{/contents}}
+{{#annotations}} * @{{name}} {{#contents}}{{& .}} {{/contents}}
 {{/annotations}}
  *
 {{/inheritDoc}}
@@ -21,7 +21,7 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 {{#accessModifier}}{{.}} {{/accessModifier}}{{#typeModifier}}{{.}} {{/typeModifier}}{{classKind}} {{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{!親クラス}}{{#superClass}} extends {{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{/superClass}}{{!実装クラス}}{{#hasImplementsClasses}} implements {{/hasImplementsClasses}}{{#implementsClasses}}{{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{^last}}, {{/last}}{{/implementsClasses}} {
 
 {{#fields}}{{!フィールド}}
-{{#javaDoc}}    /** {{#mainContents}}{{.}}{{/mainContents}} */{{/javaDoc}}
+{{#javaDoc}}    /** {{#mainContents}}{{& .}}{{/mainContents}} */{{/javaDoc}}
 {{#annotations}}    @{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
 {{/annotations}}
     {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifier}}{{.}} {{/fieldModifier}}{{#type}}{{ClassName}}{{#array}}[]{{/array}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
@@ -30,12 +30,12 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 {{#methods}}{{!メソッド}}
 {{#javaDoc}}
     /**
-{{#inheritDoc}}     * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}}     * {{.}}<br>
+{{#inheritDoc}}     * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}}     * {{& .}}<br>
 {{/mainContents}}
 {{#annotations}}
      *
 {{/annotations}}
-{{#annotations}}     * @{{name}} {{#contents}}{{.}} {{/contents}}
+{{#annotations}}     * @{{name}} {{#contents}}{{& .}} {{/contents}}
 {{/annotations}}
      *
 {{/inheritDoc}}
@@ -44,7 +44,7 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 {{#annotations}}    @{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
 {{/annotations}}
     {{#accessModifier}}{{.}} {{/accessModifier}}{{#methodModifier}}{{.}} {{/methodModifier}}{{#resultType}}{{ClassName}}{{#array}}[]{{/array}}{{/resultType}}{{^resultType}}void{{/resultType}} {{name}}({{#args}}{{#argModifier}}{{.}} {{/argModifier}}{{#annoatations}}@{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}} {{/annoatations}}{{#type}}{{className}}{{#array}}[]{{/array}}{{/type}} {{name}}{{^last}}, {{/last}}{{/args}}){{#hasThrowTypes}} throws {{/hasThrowTypes}}{{#throwsTypes}}{{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{/throwsTypes}} {
-        {{#logic}}{{content}}{{/logic}}{{^logic}}// TODO : To Be Logic...{{/logic}}
+        {{#logic}}{{& content}}{{/logic}}{{^logic}}// TODO : To Be Logic...{{/logic}}
     }
 
 {{/methods}}
