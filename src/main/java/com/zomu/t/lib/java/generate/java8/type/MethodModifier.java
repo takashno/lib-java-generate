@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 
+ * メソッドに付与する修飾子を表す列挙型.
  * 
  * 
  * @author takashimanozomu
@@ -13,6 +13,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MethodModifier {
+
+	/** default */
+	DEFAULT,
 
 	/** abstract */
 	ABSTRACT,

@@ -20,6 +20,7 @@ import com.zomu.t.lib.java.generate.java8.model.LogicModel;
 import com.zomu.t.lib.java.generate.java8.model.MethodModel;
 import com.zomu.t.lib.java.generate.java8.model.ReturnModel;
 import com.zomu.t.lib.java.generate.java8.type.AccessModifier;
+import com.zomu.t.lib.java.generate.java8.type.MethodModifier;
 import com.zomu.t.lib.java.generate.java8.util.FieldUtils;
 import com.zomu.t.lib.java.generate.java8.util.JavaDocUtils;
 import com.zomu.t.lib.java.generate.java8.util.TypeUtils;
@@ -183,6 +184,7 @@ public class Java8ConvertTest {
 		mm1.getThrowsTypes().add(
 				TypeUtils.getGenericClassModel("com.example",
 						"OriginalException"));
+		mm1.getMethodModifier().add(MethodModifier.ABSTRACT);
 
 		// mm1.setLogic(LogicModel.builder().name("hoge").build());
 

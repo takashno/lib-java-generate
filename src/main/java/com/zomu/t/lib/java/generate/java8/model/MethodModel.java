@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Singular;
 
 import com.zomu.t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu.t.lib.java.generate.java8.type.MethodModifier;
@@ -32,13 +33,15 @@ public class MethodModel implements Serializable {
 	private JavaDocModel javaDoc;
 
 	/** アノテーション */
+	@Singular("annotations")
 	private List<AnnotationModel> annotations = new ArrayList<>();
 
 	/** アクセス修飾子 */
 	private AccessModifier accessModifier;
 
 	/** メソッド修飾子 */
-	private List<MethodModifier> methodModifier = new ArrayList<>();
+	@Singular("methodModifier")
+	private final List<MethodModifier> methodModifier = new ArrayList<>();
 
 	/** 型 */
 	private ReturnModel returnType;
@@ -48,13 +51,18 @@ public class MethodModel implements Serializable {
 	private String name;
 
 	/** 引数 */
-	private List<ArgModel> args = new ArrayList<>();
+	@Singular("args")
+	private final List<ArgModel> args = new ArrayList<>();
 
 	/** Throws */
-	private List<ClassModel> throwsTypes = new ArrayList<>();
+	@Singular("throwsTypes")
+	private final List<ClassModel> throwsTypes = new ArrayList<>();
 
 	/** ロジック */
 	private LogicModel logic;
+
+	/** ブロックが不要なメソッドフラグ（このプロパティは内部処理での利用する） */
+	private boolean noneBlockMethod = false;
 
 	/**
 	 * throwする可能性のある例外を保持しているかどうか判定します.
@@ -65,6 +73,11 @@ public class MethodModel implements Serializable {
 		return throwsTypes.size() > 0;
 	}
 
+	/**
+	 * 抽象メソッドであるかどうか判定します.
+	 * 
+	 * @return
+	 */
 	public boolean isAbstractMethod() {
 		return methodModifier.stream().anyMatch(
 				x -> x == MethodModifier.ABSTRACT);

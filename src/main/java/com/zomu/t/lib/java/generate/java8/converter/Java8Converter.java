@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ClassUtils;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.github.mustachejava.DefaultMustacheFactory;
@@ -23,6 +22,8 @@ import com.zomu.t.lib.java.generate.java8.model.FieldModel;
 import com.zomu.t.lib.java.generate.java8.model.ImportModel;
 import com.zomu.t.lib.java.generate.java8.model.LogicDetailModel;
 import com.zomu.t.lib.java.generate.java8.model.MethodModel;
+import com.zomu.t.lib.java.generate.java8.type.ClassKind;
+import com.zomu.t.lib.java.generate.java8.type.MethodModifier;
 
 /**
  * Java8用の変換処理.
@@ -54,6 +55,9 @@ public class Java8Converter extends JavaConverter {
 
 				// インポート構成の調整
 				adjustImport(clazz);
+
+				// メソッドブロックの調整
+				adjustDefaultMethod(clazz);
 
 			}
 
@@ -260,10 +264,18 @@ public class Java8Converter extends JavaConverter {
 
 		Map<String, ImportModel> imports = new HashMap<>();
 
+		// インポート対象候補の収集
 		importCollect(classModel, imports);
 
 		imports.forEach((k, v) -> {
 
+			// プリミティブ型とそのラッパーの場合は追加不要
+			if (v.getClassName()
+					.matches(
+							"(int|long|short|double|float|char|byte|boolean|String|Integer|Long|Short|Double|Float|Character|Byte|Boolean)"))
+				return;
+
+			// 対象クラスのインポートと比較し、追加するかを決定する
 			for (ImportModel im : classModel.getImports()) {
 
 				String fqcn = StringUtils.join(im.getPackageName(),
@@ -271,26 +283,27 @@ public class Java8Converter extends JavaConverter {
 
 				if (StringUtils.isEmpty(fqcn)) {
 					// 追加対象がないのであればSKIP
-					continue;
+					return;
 				}
 
-				// 第一判定：FQCNの一致、ワイルドカードが一致、staticインポートが一致であれば追加不要
+				// FQCNの一致、ワイルドカードが一致、staticインポートが一致であれば追加不要
 				// kは収集処理にて各モデルから収集しているためクラス名までを含んだものでメソッド名は含まない
 				if (StringUtils.equals(fqcn, k)
 						&& im.isWildcard() == v.isWildcard()
 						&& im.isStaticImport() == v.isStaticImport()) {
-					continue;
+					return;
 				}
 
-				// 第二判定：FQCNが途中まで一緒で、ワイルドカードが指定されているものが既存にあれば追加不要
-				String[] add = k.split("\\.");
+				// FQCNが途中まで一緒で、ワイルドカードが指定されているものが既存にあれば追加不要
+				String[] target = k.split("\\.");
 				String[] exists = fqcn.split("\\.");
-				if (add.length > exists.length) {
+				if (target.length > exists.length) {
 
 				}
 
 			}
 
+			// 既に同一のものが含まれていないのであれば追加する
 			if (!classModel.getImports().contains(v)) {
 				classModel.getImports().add(v);
 			}
@@ -412,6 +425,35 @@ public class Java8Converter extends JavaConverter {
 
 						});
 
+		}
+
+	}
+
+	/**
+	 * デフォルトメソッドの調整処理.
+	 * 
+	 * @param classModel
+	 */
+	private void adjustDefaultMethod(ClassModel classModel) {
+
+		// インタフェースで、デフォルトメソッドを持たないものはブロックの出力は不要
+		if (classModel.getClassKind() == ClassKind.INTERFACE) {
+			for (MethodModel mm : classModel.getMethods()) {
+				if (mm.getMethodModifier().stream()
+						.noneMatch(x -> x == MethodModifier.DEFAULT)) {
+					mm.setNoneBlockMethod(true);
+				}
+			}
+		}
+
+		// インタフェース以外で抽象メソッドの場合はブロックの出力は不要
+		if (classModel.getClassKind() == ClassKind.CLASS) {
+			for (MethodModel mm : classModel.getMethods()) {
+				if (mm.getMethodModifier().stream()
+						.noneMatch(x -> x == MethodModifier.ABSTRACT)) {
+					mm.setNoneBlockMethod(true);
+				}
+			}
 		}
 
 	}
