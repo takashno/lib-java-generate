@@ -24,6 +24,7 @@ public class AnnotationAttributeModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** 文字列属性フラグ */
+	@Builder.Default
 	private boolean stringAttr = true;
 
 	/** 名称 */
@@ -35,5 +36,6 @@ public class AnnotationAttributeModel implements Serializable {
 	private String value;
 
 	/** 最終フラグ */
-	private boolean last;
+	@Builder.Default
+	private boolean last = false;
 }

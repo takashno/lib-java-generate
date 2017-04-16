@@ -65,4 +65,8 @@ public class MethodModel implements Serializable {
 		return throwsTypes.size() > 0;
 	}
 
+	public boolean isAbstractMethod() {
+		return methodModifier.stream().anyMatch(
+				x -> x == MethodModifier.ABSTRACT);
+	}
 }

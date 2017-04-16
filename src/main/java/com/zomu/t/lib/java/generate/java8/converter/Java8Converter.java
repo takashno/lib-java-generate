@@ -180,8 +180,8 @@ public class Java8Converter extends JavaConverter {
 			}
 		}
 		// アノテーション
-		if (classModel.getAnnoatations() != null) {
-			for (AnnotationModel am : classModel.getAnnoatations()) {
+		if (classModel.getAnnotations() != null) {
+			for (AnnotationModel am : classModel.getAnnotations()) {
 				if (am.getAttributes() != null) {
 					for (int i = 0; i < am.getAttributes().size(); i++) {
 						if (i + 1 == am.getAttributes().size()) {

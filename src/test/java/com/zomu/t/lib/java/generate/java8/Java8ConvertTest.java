@@ -16,6 +16,7 @@ import com.zomu.t.lib.java.generate.java8.model.FieldModel;
 import com.zomu.t.lib.java.generate.java8.model.ImportModel;
 import com.zomu.t.lib.java.generate.java8.model.JavaDocAnnotationModel;
 import com.zomu.t.lib.java.generate.java8.model.JavaDocModel;
+import com.zomu.t.lib.java.generate.java8.model.LogicModel;
 import com.zomu.t.lib.java.generate.java8.model.MethodModel;
 import com.zomu.t.lib.java.generate.java8.model.ReturnModel;
 import com.zomu.t.lib.java.generate.java8.type.AccessModifier;
@@ -74,7 +75,7 @@ public class Java8ConvertTest {
 		typeAnnotation1.getAttributes().add(
 				new AnnotationAttributeModel(true, "value", "値", true));
 		typeAnnotation1.setLast(true);
-		clazz.getAnnoatations().add(typeAnnotation1);
+		clazz.getAnnotations().add(typeAnnotation1);
 
 		// アクセス修飾子
 		clazz.setAccessModifier(AccessModifier.PUBLIC);

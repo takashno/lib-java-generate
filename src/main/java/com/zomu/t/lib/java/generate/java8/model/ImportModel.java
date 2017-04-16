@@ -36,6 +36,7 @@ public class ImportModel implements Serializable {
 	private String methodName;
 
 	/** ワイルドカードフラグ */
-	private boolean wildcard;
+	@Builder.Default
+	private boolean wildcard = false;
 
 }

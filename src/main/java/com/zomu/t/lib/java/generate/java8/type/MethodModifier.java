@@ -3,12 +3,19 @@ package com.zomu.t.lib.java.generate.java8.type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 
+ * 
+ * 
+ * @author takashimanozomu
+ *
+ */
 @Getter
 @AllArgsConstructor
 public enum MethodModifier {
 
-	/** static */
-	STATIC,
+	/** abstract */
+	ABSTRACT,
 
 	/** final */
 	FINAL;

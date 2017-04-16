@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.Singular;
+import lombok.experimental.Delegate;
 
 import com.zomu.t.lib.java.generate.java8.type.ArgModifier;
 
@@ -28,7 +30,9 @@ public class ArgModel implements Serializable {
 	private ArgModifier argModifier;
 
 	/** アノテーション */
-	private List<AnnotationModel> annotations = new ArrayList<>();
+	@Delegate
+	@Singular("annotations")
+	private final List<AnnotationModel> annotations = new ArrayList<>();
 
 	/** 型 */
 	@NonNull

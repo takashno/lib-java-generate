@@ -37,22 +37,24 @@ public class ClassModel implements Clazz, Serializable {
 	private String packageName;
 
 	/** インポート */
+	@Singular("imports")
 	private final List<ImportModel> imports = new ArrayList<>();
 
 	/** クラスに対するJavaDoc */
 	private JavaDocModel javaDoc;
 
 	/** クラスに対するアノテーション */
-	private final List<AnnotationModel> annoatations = new ArrayList<>();
+	@Singular("annotations")
+	private final List<AnnotationModel> annotations = new ArrayList<>();
 
 	/** アクセス修飾子 */
+	@Builder.Default
 	private AccessModifier accessModifier = AccessModifier.PUBLIC;
 
 	/** クラス修飾子 */
 	private TypeModifier typeModifier;
 
 	/** クラス種別 */
-//	@NonNull
 	@Builder.Default
 	private ClassKind classKind = ClassKind.CLASS;
 
@@ -64,25 +66,27 @@ public class ClassModel implements Clazz, Serializable {
 	private ClassModel superClass;
 
 	/** 実装インタフェース */
-	@Singular
-	private List<ClassModel> implementsClasses = new ArrayList<>();
+	@Singular("implementsClasses")
+	private final List<ClassModel> implementsClasses = new ArrayList<>();
 
 	/** 総称型 */
-	@Singular
-	private List<ClassModel> genericTypes = new ArrayList<>();
+	@Singular("genericTypes")
+	private final List<ClassModel> genericTypes = new ArrayList<>();
 
 	/** フィールド */
-	@Singular
-	private List<FieldModel> fields = new ArrayList<>();
+	@Singular("fields")
+	private final List<FieldModel> fields = new ArrayList<>();
 
 	/** メソッド */
-	@Singular
-	private List<MethodModel> methods = new ArrayList<>();
+	@Singular("methods")
+	private final List<MethodModel> methods = new ArrayList<>();
 
 	/** プリミティブ型フラグ */
+	@Builder.Default
 	private boolean primitive = false;
 
 	/** 最終フラグ */
+	@Builder.Default
 	private boolean last = false;
 
 	/**

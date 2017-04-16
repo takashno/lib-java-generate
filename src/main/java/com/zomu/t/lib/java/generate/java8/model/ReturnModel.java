@@ -26,6 +26,7 @@ public class ReturnModel implements Serializable {
 	private ClassModel type;
 
 	/** 配列フラグ */
+	@Builder.Default
 	private boolean array = false;
 
 }

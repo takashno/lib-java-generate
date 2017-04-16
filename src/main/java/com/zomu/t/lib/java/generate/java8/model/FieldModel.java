@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Singular;
 
 import com.zomu.t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu.t.lib.java.generate.java8.type.FieldModifier;
@@ -32,12 +33,15 @@ public class FieldModel implements Serializable {
 	private JavaDocModel javaDoc;
 
 	/** アノテーション */
+	@Singular("annotations")
 	private final List<AnnotationModel> annotations = new ArrayList<>();
 
 	/** アクセス修飾子 */
+	@Builder.Default
 	private AccessModifier accessModifier = AccessModifier.PRIVATE;
 
 	/** フィールド修飾子 */
+	@Singular("fieldModifier")
 	private final List<FieldModifier> fieldModifier = new ArrayList<>();
 
 	/** 型 */

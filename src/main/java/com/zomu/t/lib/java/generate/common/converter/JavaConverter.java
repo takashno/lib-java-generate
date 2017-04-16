@@ -1,6 +1,5 @@
 package com.zomu.t.lib.java.generate.common.converter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

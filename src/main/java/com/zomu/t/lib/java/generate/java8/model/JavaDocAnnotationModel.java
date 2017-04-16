@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Singular;
 import lombok.experimental.Delegate;
 
 /**
@@ -32,6 +33,7 @@ public class JavaDocAnnotationModel implements Serializable {
 
 	/** コンテンツ */
 	@Delegate
+	@Singular("contents")
 	private final List<String> contents = new ArrayList<>();
 
 }

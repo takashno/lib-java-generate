@@ -25,10 +25,11 @@ public class LogicModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** ロジック本文 */
+	@Builder.Default
 	private final StringBuilder content = new StringBuilder();
 
 	/** ロジック詳細リスト */
-	@Singular
+	@Singular("details")
 	private List<LogicDetailModel> details = new ArrayList<>();
 
 }

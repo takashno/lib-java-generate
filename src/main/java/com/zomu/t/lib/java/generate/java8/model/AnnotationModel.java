@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Singular;
 
 /**
  * アノテーションを表すモデル.
@@ -34,10 +35,12 @@ public class AnnotationModel implements Serializable {
 	private String className;
 
 	/** 属性 */
+	@Singular("attributes")
 	private final List<AnnotationAttributeModel> attributes = new ArrayList<>();
 
 	/** 最終フラグ */
-	private boolean last;
+	@Builder.Default
+	private boolean last = false;
 
 	/**
 	 * 属性を保持しているかどうか判定します.

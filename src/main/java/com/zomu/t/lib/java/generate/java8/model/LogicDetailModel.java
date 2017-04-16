@@ -28,7 +28,7 @@ public class LogicDetailModel implements Serializable {
 	private String templatePath;
 
 	/** スコープ（こちらが指定されていれば優先する） */
-	@Singular
-	private List<Object> scopes = new ArrayList<>();
+	@Singular("scopes")
+	private final List<Object> scopes = new ArrayList<>();
 
 }

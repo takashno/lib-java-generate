@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
 /**
  * JavaDocを表すモデル.
@@ -26,12 +27,15 @@ public class JavaDocModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** JavaDocのメイン文章.基本的にリストの1要素が1行の扱いとする. */
+	@Singular("mainContents")
 	private final List<String> mainContents = new ArrayList<>();
 
 	/** inheritDocフラグ */
-	private boolean inheritDoc;
+	@Builder.Default
+	private boolean inheritDoc = false;
 
 	/** アノテーション */
+	@Singular("annotations")
 	private final List<JavaDocAnnotationModel> annotations = new ArrayList<>();
 
 }
