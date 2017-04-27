@@ -1,5 +1,6 @@
 package com.zomu.t.lib.java.generate.common.converter;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import com.google.googlejavaformat.java.Formatter;
 import com.zomu.t.lib.java.generate.common.context.ConvertContext;
 import com.zomu.t.lib.java.generate.common.context.ConvertFailureTarget;
 import com.zomu.t.lib.java.generate.common.context.ConvertTarget;
@@ -113,7 +115,26 @@ public abstract class JavaConverter {
 				scopes.addAll(target.getScopes());
 
 				// 変換処理
-				m.execute(target.getOutputWriter(), scopes.toArray()).flush();
+				if (context.isDoFormat()) {
+
+					// 一旦文字列に書き起こす
+					StringWriter sw = new StringWriter();
+					m.execute(sw, scopes.toArray()).flush();
+
+					System.out.println(sw.toString());
+
+					// フォーマット処理
+					String formattedSource = new Formatter().formatSource(sw
+							.toString());
+
+					// 指定されたWriterへ書き込む
+					target.getOutputWriter().write(formattedSource);
+					target.getOutputWriter().flush();
+
+				} else {
+					m.execute(target.getOutputWriter(), scopes.toArray())
+							.flush();
+				}
 
 				// 個別変換対象 - 後処理
 				afterTarget(context, target);

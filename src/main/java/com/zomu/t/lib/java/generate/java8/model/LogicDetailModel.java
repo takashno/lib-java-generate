@@ -1,7 +1,6 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +27,7 @@ public class LogicDetailModel implements Serializable {
 	private String templatePath;
 
 	/** スコープ（こちらが指定されていれば優先する） */
-	@Singular("scopes")
-	private final List<Object> scopes = new ArrayList<>();
+	@Singular
+	private List<Object> scopes;
 
 }

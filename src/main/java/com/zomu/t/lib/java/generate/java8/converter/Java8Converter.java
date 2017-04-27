@@ -1,6 +1,7 @@
 package com.zomu.t.lib.java.generate.java8.converter;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -275,32 +276,31 @@ public class Java8Converter extends JavaConverter {
 							"(int|long|short|double|float|char|byte|boolean|String|Integer|Long|Short|Double|Float|Character|Byte|Boolean)"))
 				return;
 
+			// java.langのパッケージはインポート不要
+			if (v.getPackageName().startsWith("java.lang"))
+				return;
+
+			// インポートが存在しなければリストを生成しておく
+			if (classModel.getImports() == null)
+				classModel.setImports(new ArrayList<>());
+
 			// 対象クラスのインポートと比較し、追加するかを決定する
 			for (ImportModel im : classModel.getImports()) {
 
+				// FQCN
 				String fqcn = StringUtils.join(im.getPackageName(),
 						im.getClassName());
 
-				if (StringUtils.isEmpty(fqcn)) {
-					// 追加対象がないのであればSKIP
+				// 追加対象がないのであればSKIP
+				if (StringUtils.isEmpty(fqcn))
 					return;
-				}
 
 				// FQCNの一致、ワイルドカードが一致、staticインポートが一致であれば追加不要
 				// kは収集処理にて各モデルから収集しているためクラス名までを含んだものでメソッド名は含まない
 				if (StringUtils.equals(fqcn, k)
 						&& im.isWildcard() == v.isWildcard()
-						&& im.isStaticImport() == v.isStaticImport()) {
+						&& im.isStaticImport() == v.isStaticImport())
 					return;
-				}
-
-				// FQCNが途中まで一緒で、ワイルドカードが指定されているものが既存にあれば追加不要
-				String[] target = k.split("\\.");
-				String[] exists = fqcn.split("\\.");
-				if (target.length > exists.length) {
-
-				}
-
 			}
 
 			// 既に同一のものが含まれていないのであれば追加する
@@ -318,6 +318,61 @@ public class Java8Converter extends JavaConverter {
 	 */
 	private void importCollect(ClassModel classModel,
 			Map<String, ImportModel> imports) {
+
+		// アノテーションに対してインポートの処理を行う
+		if (classModel.getAnnotations() != null) {
+			classModel.getAnnotations().forEach(
+					x -> {
+						String fqcn = StringUtils.join(x.getPackageName(), ".",
+								x.getClassName());
+						imports.putIfAbsent(fqcn, ImportModel.builder()
+								.packageName(ClassUtils.getPackageName(fqcn))
+								.className(ClassUtils.getShortClassName(fqcn))
+								.build());
+					});
+		}
+
+		// 実装インタフェースに対してインポートの収集を行う
+		if (classModel.getImplementsClasses() != null) {
+			classModel.getImplementsClasses().forEach(
+					x -> {
+						String fqcn = StringUtils.join(x.getPackageName(), ".",
+								x.getClassName());
+						imports.putIfAbsent(fqcn, ImportModel.builder()
+								.packageName(ClassUtils.getPackageName(fqcn))
+								.className(ClassUtils.getShortClassName(fqcn))
+								.build());
+						importCollect(x, imports);
+					});
+		}
+
+		// 総称型に対してインポートの収集を行う
+		if (classModel.getGenericTypes() != null) {
+			classModel.getGenericTypes().forEach(
+					x -> {
+						String fqcn = StringUtils.join(x.getPackageName(), ".",
+								x.getClassName());
+						imports.putIfAbsent(fqcn, ImportModel.builder()
+								.packageName(ClassUtils.getPackageName(fqcn))
+								.className(ClassUtils.getShortClassName(fqcn))
+								.build());
+						importCollect(x, imports);
+					});
+		}
+
+		// 親クラスに対してインポートの収集を行う
+		if (classModel.getSuperClass() != null) {
+			String fqcn = StringUtils.join(classModel.getSuperClass()
+					.getPackageName(), ".", classModel.getSuperClass()
+					.getClassName());
+			imports.putIfAbsent(
+					fqcn,
+					ImportModel.builder()
+							.packageName(ClassUtils.getPackageName(fqcn))
+							.className(ClassUtils.getShortClassName(fqcn))
+							.build());
+			importCollect(classModel.getSuperClass(), imports);
+		}
 
 		// フィールドに対してインポートの収集を行う
 		if (classModel.getFields() != null
@@ -406,22 +461,32 @@ public class Java8Converter extends JavaConverter {
 											});
 
 							// 返却値に対してインポートの収集を行う
-							String fqcn = x.getReturnType().getType()
-									.getPackageName()
-									+ "."
-									+ x.getReturnType().getType()
-											.getClassName();
-							imports.putIfAbsent(
-									fqcn,
-									ImportModel
-											.builder()
-											.packageName(
-													ClassUtils
-															.getPackageName(fqcn))
-											.className(
-													ClassUtils
-															.getShortClassName(fqcn))
-											.build());
+							if (x.getReturnType() != null) {
+								String fqcn = x.getReturnType().getType()
+										.getPackageName()
+										+ "."
+										+ x.getReturnType().getType()
+												.getClassName();
+								imports.putIfAbsent(
+										fqcn,
+										ImportModel
+												.builder()
+												.packageName(
+														ClassUtils
+																.getPackageName(fqcn))
+												.className(
+														ClassUtils
+																.getShortClassName(fqcn))
+												.build());
+								// 返却値の総称型に対してインポートの収集を行う
+								if (x.getReturnType().getType()
+										.getGenericTypes() != null) {
+									x.getReturnType().getType()
+											.getGenericTypes().forEach(y -> {
+												importCollect(y, imports);
+											});
+								}
+							}
 
 						});
 
@@ -439,7 +504,7 @@ public class Java8Converter extends JavaConverter {
 		// インタフェースで、デフォルトメソッドを持たないものはブロックの出力は不要
 		if (classModel.getClassKind() == ClassKind.INTERFACE) {
 			for (MethodModel mm : classModel.getMethods()) {
-				if (mm.getMethodModifier().stream()
+				if (mm.getMethodModifiers().stream()
 						.noneMatch(x -> x == MethodModifier.DEFAULT)) {
 					mm.setNoneBlockMethod(true);
 				}
@@ -449,7 +514,7 @@ public class Java8Converter extends JavaConverter {
 		// インタフェース以外で抽象メソッドの場合はブロックの出力は不要
 		if (classModel.getClassKind() == ClassKind.CLASS) {
 			for (MethodModel mm : classModel.getMethods()) {
-				if (mm.getMethodModifier().stream()
+				if (mm.getMethodModifiers().stream()
 						.noneMatch(x -> x == MethodModifier.ABSTRACT)) {
 					mm.setNoneBlockMethod(true);
 				}

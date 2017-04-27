@@ -23,6 +23,9 @@ public class ConvertContext implements Serializable {
 	/** エラーを無視して続ける */
 	private boolean onErrorResume = false;
 
+	/** ソースコードのフォーマットを行うかどうか */
+	private boolean doFormat = true;
+
 	/** 変換失敗対象リスト */
 	private List<ConvertFailureTarget> failureTargets;
 

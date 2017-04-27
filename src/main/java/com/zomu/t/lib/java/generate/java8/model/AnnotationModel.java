@@ -1,7 +1,6 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -35,8 +34,8 @@ public class AnnotationModel implements Serializable {
 	private String className;
 
 	/** 属性 */
-	@Singular("attributes")
-	private final List<AnnotationAttributeModel> attributes = new ArrayList<>();
+	@Singular
+	private List<AnnotationAttributeModel> attributes;
 
 	/** 最終フラグ */
 	@Builder.Default
@@ -48,6 +47,6 @@ public class AnnotationModel implements Serializable {
 	 * @return
 	 */
 	public boolean hasAttributes() {
-		return attributes.size() > 0;
+		return attributes == null ? false : attributes.size() > 0;
 	}
 }

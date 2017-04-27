@@ -1,7 +1,6 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -33,15 +32,15 @@ public class MethodModel implements Serializable {
 	private JavaDocModel javaDoc;
 
 	/** アノテーション */
-	@Singular("annotations")
-	private List<AnnotationModel> annotations = new ArrayList<>();
+	@Singular
+	private List<AnnotationModel> annotations;
 
 	/** アクセス修飾子 */
 	private AccessModifier accessModifier;
 
 	/** メソッド修飾子 */
-	@Singular("methodModifier")
-	private final List<MethodModifier> methodModifier = new ArrayList<>();
+	@Singular
+	private List<MethodModifier> methodModifiers;
 
 	/** 型 */
 	private ReturnModel returnType;
@@ -51,12 +50,12 @@ public class MethodModel implements Serializable {
 	private String name;
 
 	/** 引数 */
-	@Singular("args")
-	private final List<ArgModel> args = new ArrayList<>();
+	@Singular
+	private List<ArgModel> args;
 
 	/** Throws */
-	@Singular("throwsTypes")
-	private final List<ClassModel> throwsTypes = new ArrayList<>();
+	@Singular
+	private List<ClassModel> throwsTypes;
 
 	/** ロジック */
 	private LogicModel logic;
@@ -70,7 +69,7 @@ public class MethodModel implements Serializable {
 	 * @return
 	 */
 	public boolean hasThrowTypes() {
-		return throwsTypes.size() > 0;
+		return throwsTypes == null ? false : throwsTypes.size() > 0;
 	}
 
 	/**
@@ -79,7 +78,7 @@ public class MethodModel implements Serializable {
 	 * @return
 	 */
 	public boolean isAbstractMethod() {
-		return methodModifier.stream().anyMatch(
-				x -> x == MethodModifier.ABSTRACT);
+		return methodModifiers == null ? false : methodModifiers.stream()
+				.anyMatch(x -> x == MethodModifier.ABSTRACT);
 	}
 }

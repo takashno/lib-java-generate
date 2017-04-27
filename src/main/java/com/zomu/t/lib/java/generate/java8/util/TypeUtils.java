@@ -213,8 +213,8 @@ public class TypeUtils {
 	public ClassModel getGenericClassModel(String packageName,
 			String className, ClassModel... genericTypes) {
 		val cm = ClassModel.builder().packageName(packageName)
-				.className(className).build();
-		cm.getGenericTypes().addAll(Arrays.asList(genericTypes));
+				.className(className).genericTypes(Arrays.asList(genericTypes))
+				.build();
 		return cm;
 	}
 

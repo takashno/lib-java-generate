@@ -22,9 +22,7 @@ public final class JavaDocUtils {
 	 * @return
 	 */
 	public static JavaDocModel getFieldJavaDocModel(String javaDocContents) {
-		val jdm = new JavaDocModel();
-		jdm.getMainContents().add(javaDocContents);
-		return jdm;
+		return JavaDocModel.builder().mainContent(javaDocContents).build();
 	}
 
 	/**
@@ -49,12 +47,13 @@ public final class JavaDocUtils {
 	public static JavaDocModel getMethodJavaDocModel(
 			List<String> javaDocContents,
 			JavaDocAnnotationModel... annotationModels) {
-		val jdm = new JavaDocModel();
-		jdm.getMainContents().addAll(javaDocContents);
 		if (annotationModels != null) {
-			jdm.getAnnotations().addAll(Arrays.asList(annotationModels));
+			return JavaDocModel.builder()
+					.annotations(Arrays.asList(annotationModels)).build();
+		} else {
+			return JavaDocModel.builder().build();
 		}
-		return jdm;
+
 	}
 
 }

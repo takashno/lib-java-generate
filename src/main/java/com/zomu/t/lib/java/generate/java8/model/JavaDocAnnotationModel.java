@@ -1,7 +1,6 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Singular;
-import lombok.experimental.Delegate;
 
 /**
  * JavaDocのアノテーションを表すモデル.
@@ -32,8 +30,7 @@ public class JavaDocAnnotationModel implements Serializable {
 	private String name;
 
 	/** コンテンツ */
-	@Delegate
-	@Singular("contents")
-	private final List<String> contents = new ArrayList<>();
+	@Singular
+	private List<String> contents;
 
 }

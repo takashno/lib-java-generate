@@ -37,15 +37,15 @@ public class ClassModel implements Clazz, Serializable {
 	private String packageName;
 
 	/** インポート */
-	@Singular("imports")
-	private final List<ImportModel> imports = new ArrayList<>();
+	@Singular
+	private List<ImportModel> imports;
 
 	/** クラスに対するJavaDoc */
 	private JavaDocModel javaDoc;
 
 	/** クラスに対するアノテーション */
-	@Singular("annotations")
-	private final List<AnnotationModel> annotations = new ArrayList<>();
+	@Singular
+	private List<AnnotationModel> annotations;
 
 	/** アクセス修飾子 */
 	@Builder.Default
@@ -66,20 +66,20 @@ public class ClassModel implements Clazz, Serializable {
 	private ClassModel superClass;
 
 	/** 実装インタフェース */
-	@Singular("implementsClasses")
-	private final List<ClassModel> implementsClasses = new ArrayList<>();
+	@Singular
+	private List<ClassModel> implementsClasses;
 
 	/** 総称型 */
-	@Singular("genericTypes")
-	private final List<ClassModel> genericTypes = new ArrayList<>();
+	@Singular
+	private List<ClassModel> genericTypes;
 
 	/** フィールド */
-	@Singular("fields")
-	private final List<FieldModel> fields = new ArrayList<>();
+	@Singular
+	private List<FieldModel> fields;
 
 	/** メソッド */
-	@Singular("methods")
-	private final List<MethodModel> methods = new ArrayList<>();
+	@Singular
+	private List<MethodModel> methods;
 
 	/** プリミティブ型フラグ */
 	@Builder.Default
@@ -95,7 +95,7 @@ public class ClassModel implements Clazz, Serializable {
 	 * @return
 	 */
 	public boolean hasGenericTypes() {
-		return genericTypes.size() > 0;
+		return genericTypes == null ? false : genericTypes.size() > 0;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class ClassModel implements Clazz, Serializable {
 	 * @return
 	 */
 	public boolean hasImplementsClasses() {
-		return implementsClasses.size() > 0;
+		return implementsClasses == null ? false : implementsClasses.size() > 0;
 	}
 
 }

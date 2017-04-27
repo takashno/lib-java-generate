@@ -1,7 +1,6 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -33,16 +32,16 @@ public class FieldModel implements Serializable {
 	private JavaDocModel javaDoc;
 
 	/** アノテーション */
-	@Singular("annotations")
-	private final List<AnnotationModel> annotations = new ArrayList<>();
+	@Singular
+	private List<AnnotationModel> annotations;
 
 	/** アクセス修飾子 */
 	@Builder.Default
 	private AccessModifier accessModifier = AccessModifier.PRIVATE;
 
 	/** フィールド修飾子 */
-	@Singular("fieldModifier")
-	private final List<FieldModifier> fieldModifier = new ArrayList<>();
+	@Singular
+	private List<FieldModifier> fieldModifiers;
 
 	/** 型 */
 	@NonNull

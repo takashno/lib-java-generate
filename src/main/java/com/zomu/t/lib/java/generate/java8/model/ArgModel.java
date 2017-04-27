@@ -1,12 +1,12 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.experimental.Delegate;
@@ -14,6 +14,7 @@ import lombok.experimental.Delegate;
 import com.zomu.t.lib.java.generate.java8.type.ArgModifier;
 
 /**
+ * 引数を表すモデル.
  * 
  * @author takashimanozomu
  *
@@ -21,6 +22,7 @@ import com.zomu.t.lib.java.generate.java8.type.ArgModifier;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ArgModel implements Serializable {
 
 	/** デフォルトシリアルバージョンUID */
@@ -31,8 +33,8 @@ public class ArgModel implements Serializable {
 
 	/** アノテーション */
 	@Delegate
-	@Singular("annotations")
-	private final List<AnnotationModel> annotations = new ArrayList<>();
+	@Singular
+	private List<AnnotationModel> annotations;
 
 	/** 型 */
 	@NonNull

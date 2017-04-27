@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * アノテーション属性モデル.
+ * アノテーション属性を表すモデル.
  * 
  * @author takashimanozomu
  *

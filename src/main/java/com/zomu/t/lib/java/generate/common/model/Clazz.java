@@ -7,5 +7,4 @@ package com.zomu.t.lib.java.generate.common.model;
  *
  */
 public interface Clazz {
-
 }

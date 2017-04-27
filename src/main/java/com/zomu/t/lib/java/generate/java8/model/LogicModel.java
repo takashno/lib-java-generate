@@ -1,7 +1,6 @@
 package com.zomu.t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +28,7 @@ public class LogicModel implements Serializable {
 	private final StringBuilder content = new StringBuilder();
 
 	/** ロジック詳細リスト */
-	@Singular("details")
-	private List<LogicDetailModel> details = new ArrayList<>();
+	@Singular
+	private List<LogicDetailModel> details;
 
 }

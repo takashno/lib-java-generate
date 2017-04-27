@@ -1,6 +1,11 @@
 package com.zomu.t.lib.java.generate.java8;
 
 import java.io.StringWriter;
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,32 +55,41 @@ public class Java8ConvertTest {
 		ImportModel im1 = ImportModel.builder().packageName("hoge.fuga.piyo")
 				.className("ClassName").methodName("methodName").build();
 
-		// im1.setStaticImport(true);
-		clazz.getImports().add(im1);
+		ImportModel im2 = ImportModel.builder().packageName("ahoge.fuga.piyo")
+				.className("ClassName").methodName("methodName").build();
 
-		// JavaDoc
-		JavaDocModel typeJavaDoc = new JavaDocModel();
-		typeJavaDoc.getMainContents().add("1行目");
-		typeJavaDoc.getMainContents().add("2行目");
-		typeJavaDoc.getMainContents().add("3行目");
+		ImportModel im3 = ImportModel.builder().packageName("java.util")
+				.className("List").build();
+
+		// im1.setStaticImport(true);
+		clazz.setImports(new ArrayList<ImportModel>());
+		clazz.getImports().add(im1);
+		clazz.getImports().add(im2);
+		clazz.getImports().add(im3);
+
 		JavaDocAnnotationModel jdam1 = JavaDocAnnotationModel.builder()
-				.name("author").build();
-		jdam1.add("Nozomu Takashima");
-		typeJavaDoc.getAnnotations().add(jdam1);
+				.name("author").content("Nozomu Takashima").build();
 
 		JavaDocAnnotationModel jdam2 = JavaDocAnnotationModel.builder()
-				.name("since").build();
-		jdam2.add("V0.0.1");
-		typeJavaDoc.getAnnotations().add(jdam2);
+				.name("since").content("V0.0.1").build();
+
+		// JavaDoc
+		JavaDocModel typeJavaDoc = JavaDocModel.builder().mainContent("1行目")
+				.mainContent("2行目").mainContent("3行目").annotation(jdam1)
+				.annotation(jdam2).build();
+
 		clazz.setJavaDoc(typeJavaDoc);
 
 		// クラスアノテーション
-		AnnotationModel typeAnnotation1 = new AnnotationModel();
-		typeAnnotation1.setPackageName("lombok");
-		typeAnnotation1.setClassName("Data");
-		typeAnnotation1.getAttributes().add(
-				new AnnotationAttributeModel(true, "value", "値", true));
-		typeAnnotation1.setLast(true);
+		AnnotationModel typeAnnotation1 = AnnotationModel
+				.builder()
+				.packageName("lombok")
+				.className("Data")
+				.attribute(
+						new AnnotationAttributeModel(true, "value", "値", true))
+				.last(true).build();
+
+		clazz.setAnnotations(new ArrayList<AnnotationModel>());
 		clazz.getAnnotations().add(typeAnnotation1);
 
 		// アクセス修飾子
@@ -86,6 +100,8 @@ public class Java8ConvertTest {
 
 		// クラス名
 		clazz.setClassName("ConvertSample");
+
+		clazz.setGenericTypes(new ArrayList<ClassModel>());
 		clazz.getGenericTypes().add(
 				TypeUtils.getGenericClassModel("com.example", "Hoge"));
 		clazz.getGenericTypes().add(
@@ -96,6 +112,7 @@ public class Java8ConvertTest {
 		// ----------------------------------
 		ClassModel superClass = new ClassModel();
 		superClass.setClassName("AbstractSuperClass");
+		superClass.setGenericTypes(new ArrayList<ClassModel>());
 		superClass.getGenericTypes().add(
 				TypeUtils.getGenericClassModel("com.example", "Hoge"));
 		superClass.getGenericTypes().add(
@@ -107,14 +124,18 @@ public class Java8ConvertTest {
 		// ----------------------------------
 		ClassModel implementsClass1 = new ClassModel();
 		implementsClass1.setClassName("ImplementsClass1");
+		implementsClass1.setGenericTypes(new ArrayList<ClassModel>());
 		implementsClass1.getGenericTypes().add(
 				TypeUtils.getGenericClassModel("com.example", "Hoge"));
 		implementsClass1.getGenericTypes().add(
 				TypeUtils.getGenericClassModel("com.example", "Fuga"));
+
+		clazz.setImplementsClasses(new ArrayList<ClassModel>());
 		clazz.getImplementsClasses().add(implementsClass1);
 
 		ClassModel implementsClass2 = new ClassModel();
 		implementsClass2.setClassName("ImplementsClass2");
+		implementsClass2.setGenericTypes(new ArrayList<ClassModel>());
 		implementsClass2.getGenericTypes().add(
 				TypeUtils.getGenericClassModel("com.example", "Hoge"));
 		implementsClass2.getGenericTypes().add(
@@ -132,19 +153,29 @@ public class Java8ConvertTest {
 		AnnotationModel fieldAnnotation1 = new AnnotationModel();
 		fieldAnnotation1.setPackageName("lombok");
 		fieldAnnotation1.setClassName("NotEmpty");
+
+		fieldAnnotation1
+				.setAttributes(new ArrayList<AnnotationAttributeModel>());
 		fieldAnnotation1.getAttributes().add(
 				new AnnotationAttributeModel(true, "value", "値", true));
 		fieldAnnotation1.getAttributes().add(
 				new AnnotationAttributeModel(true, "name", "名前", true));
 		fieldAnnotation1.setLast(true);
+
+		fm1.setAnnotations(new ArrayList<AnnotationModel>());
 		fm1.getAnnotations().add(fieldAnnotation1);
 		AnnotationModel fieldAnnotation2 = new AnnotationModel();
 		fieldAnnotation2.setPackageName("lombok");
 		fieldAnnotation2.setClassName("Pattern");
+
+		fieldAnnotation2
+				.setAttributes(new ArrayList<AnnotationAttributeModel>());
 		fieldAnnotation2.getAttributes().add(
 				new AnnotationAttributeModel(true, "regexp", "値", true));
 		fieldAnnotation2.setLast(true);
 		fm1.getAnnotations().add(fieldAnnotation2);
+
+		clazz.setFields(new ArrayList<FieldModel>());
 		clazz.getFields().add(fm1);
 
 		// フィールド2
@@ -168,26 +199,31 @@ public class Java8ConvertTest {
 				.type(TypeUtils.getStringClassModel()).build();
 		mm1.setReturnType(rm1);
 		mm1.setName("method1");
+
+		mm1.setAnnotations(new ArrayList<AnnotationModel>());
 		mm1.getAnnotations().add(
-				new AnnotationModel("com.example", "GetMapping", false));
+				AnnotationModel.builder().packageName("com.example")
+						.className("GetMapping").last(false).build());
 		JavaDocAnnotationModel jdam3 = JavaDocAnnotationModel.builder()
-				.name("param").build();
-		jdam3.add("test");
-		jdam3.add("テスト値");
+				.name("param").content("test").content("テスト値").build();
 		mm1.setJavaDoc(JavaDocUtils.getMethodJavaDocModel("メソッド1です.", jdam3));
 		ArgModel am1 = ArgModel.builder().type(TypeUtils.getStringClassModel())
 				.name("arg1").build();
+		mm1.setArgs(new ArrayList<ArgModel>());
 		mm1.getArgs().add(am1);
 		ArgModel am2 = ArgModel.builder().type(TypeUtils.getStringClassModel())
 				.name("arg2").build();
 		mm1.getArgs().add(am2);
+		mm1.setThrowsTypes(new ArrayList<ClassModel>());
 		mm1.getThrowsTypes().add(
 				TypeUtils.getGenericClassModel("com.example",
 						"OriginalException"));
-		mm1.getMethodModifier().add(MethodModifier.ABSTRACT);
+		mm1.setMethodModifiers(new ArrayList<MethodModifier>());
+		mm1.getMethodModifiers().add(MethodModifier.ABSTRACT);
 
 		// mm1.setLogic(LogicModel.builder().name("hoge").build());
 
+		clazz.setMethods(new ArrayList<MethodModel>());
 		clazz.getMethods().add(mm1);
 
 		Java8Converter converter = new Java8Converter();
