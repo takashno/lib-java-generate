@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'java-generate-component'
+rootProject.name = 'lib-java-generate'

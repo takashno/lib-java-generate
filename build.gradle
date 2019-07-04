@@ -76,6 +76,11 @@ task packageSources(type: Jar, dependsOn: classes) {
 	classifier = 'source'
 }
 
+artifacts {
+	archives packageJavadoc
+	archives packageSources
+}
+
 // Library Publish
 bintray {
 	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
