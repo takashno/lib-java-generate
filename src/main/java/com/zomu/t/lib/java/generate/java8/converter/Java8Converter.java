@@ -512,7 +512,7 @@ public class Java8Converter extends JavaConverter {
 		}
 
 		// インタフェース以外で抽象メソッドの場合はブロックの出力は不要
-		if (classModel.getClassKind() == ClassKind.CLASS) {
+		if (classModel.getClassKind() != ClassKind.INTERFACE) {
 			for (MethodModel mm : classModel.getMethods()) {
 				if (mm.getMethodModifiers().stream()
 						.noneMatch(x -> x == MethodModifier.ABSTRACT)) {

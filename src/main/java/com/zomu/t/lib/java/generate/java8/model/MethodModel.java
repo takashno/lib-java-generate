@@ -61,6 +61,7 @@ public class MethodModel implements Serializable {
 	private LogicModel logic;
 
 	/** ブロックが不要なメソッドフラグ（このプロパティは内部処理での利用する） */
+	@Builder.Default
 	private boolean noneBlockMethod = false;
 
 	/**

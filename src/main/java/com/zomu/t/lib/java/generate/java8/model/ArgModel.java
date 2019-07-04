@@ -45,9 +45,11 @@ public class ArgModel implements Serializable {
 	private String name;
 
 	/** 配列フラグ */
+	@Builder.Default
 	private boolean array = false;
 
 	/** 最終フラグ */
+	@Builder.Default
 	private boolean last = false;
 
 }

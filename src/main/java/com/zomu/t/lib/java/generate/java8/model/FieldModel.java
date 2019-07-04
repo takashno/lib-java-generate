@@ -15,7 +15,7 @@ import com.zomu.t.lib.java.generate.java8.type.FieldModifier;
 
 /**
  * フィールドを表すモデル.
- * 
+ *
  * @author takashimanozomu
  *
  */
@@ -55,6 +55,7 @@ public class FieldModel implements Serializable {
 	private String initializationValue;
 
 	/** 配列フラグ */
+	@Builder.Default
 	private boolean array = false;
 
 }

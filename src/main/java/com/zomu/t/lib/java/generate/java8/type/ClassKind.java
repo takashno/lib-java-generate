@@ -16,6 +16,9 @@ public enum ClassKind {
 	/** class */
 	CLASS,
 
+	/** enum */
+	ENUM,
+
 	/** interface */
 	INTERFACE;
 
