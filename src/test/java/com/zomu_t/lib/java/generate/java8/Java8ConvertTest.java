@@ -1,33 +1,27 @@
 package com.zomu_t.lib.java.generate.java8;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.zomu_t.lib.java.generate.common.context.ConvertContext;
 import com.zomu_t.lib.java.generate.common.context.ConvertTarget;
 import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
 import com.zomu_t.lib.java.generate.java8.converter.Java8Converter;
-import lombok.extern.slf4j.Slf4j;
-
-import com.zomu_t.lib.java.generate.java8.model.AnnotationAttributeModel;
-import com.zomu_t.lib.java.generate.java8.model.AnnotationModel;
-import com.zomu_t.lib.java.generate.java8.model.ArgModel;
-import com.zomu_t.lib.java.generate.java8.model.ClassModel;
-import com.zomu_t.lib.java.generate.java8.model.FieldModel;
-import com.zomu_t.lib.java.generate.java8.model.ImportModel;
-import com.zomu_t.lib.java.generate.java8.model.JavaDocAnnotationModel;
-import com.zomu_t.lib.java.generate.java8.model.JavaDocModel;
-import com.zomu_t.lib.java.generate.java8.model.MethodModel;
-import com.zomu_t.lib.java.generate.java8.model.ReturnModel;
+import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
 import com.zomu_t.lib.java.generate.java8.util.FieldUtils;
 import com.zomu_t.lib.java.generate.java8.util.JavaDocUtils;
 import com.zomu_t.lib.java.generate.java8.util.TypeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
+import java.io.StringWriter;
+import java.util.ArrayList;
+
 public class Java8ConvertTest {
+
+    /**
+     * ロガー.
+     */
+    private static final Logger log = LoggerFactory.getLogger(Java8ClassGenerateTest.class);
 
     /**
      * @param args

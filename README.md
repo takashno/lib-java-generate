@@ -74,7 +74,6 @@ import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
 import com.zomu_t.lib.java.generate.java8.util.JavaDocUtils;
 import com.zomu_t.lib.java.generate.java8.util.TypeUtils;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.StringWriter;
 
@@ -84,7 +83,6 @@ import java.io.StringWriter;
  * @author takashno
  * @since v0.0.2
  */
-@Slf4j
 public class Java8ClassGenerateTest {
 
   /**
@@ -134,12 +132,6 @@ public class Java8ClassGenerateTest {
         .className("TypeUtils").build())
       // アクセス修飾子
       .accessModifier(AccessModifier.PUBLIC)
-      // クラスアノテーション
-      .annotation(AnnotationModel
-        .builder()
-        .packageName("lombok.extern.slf4j")
-        .className("Slf4j")
-        .last(true).build())
       // JavaDoc
       .javaDoc(JavaDocModel.builder()
         .mainContent("Java8のClass出力テスト.")
@@ -203,7 +195,6 @@ import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
 import com.zomu_t.lib.java.generate.java8.util.JavaDocUtils;
 import com.zomu_t.lib.java.generate.java8.util.TypeUtils;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Java8のClass出力テスト.<br>
@@ -211,7 +202,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author takashno
  * @since v0.0.2
  */
-@Slf4j
 public class Java8ClassGenerateTest {
 
   /**
