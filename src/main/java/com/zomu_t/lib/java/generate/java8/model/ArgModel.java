@@ -10,7 +10,7 @@ import lombok.experimental.Delegate;
 /**
  * 引数を表すモデル.
  * 
- * @author takashimanozomu
+ * @author takashno
  *
  */
 @Getter

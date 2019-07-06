@@ -7,7 +7,7 @@ import lombok.*;
 /**
  * インポートを表すモデル.
  * 
- * @author takashimanozomu
+ * @author takashno
  */
 @Getter
 @Setter

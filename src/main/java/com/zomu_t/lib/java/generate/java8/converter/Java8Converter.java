@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Java8用の変換処理.
  *
- * @author takashimanozomu
+ * @author takashno
  */
 public class Java8Converter extends JavaConverter {
 

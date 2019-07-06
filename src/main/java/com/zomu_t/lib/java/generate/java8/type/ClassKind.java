@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * クラスの種類.
  * 
- * @author takashimanozomu
+ * @author takashno
  *
  */
 @Getter

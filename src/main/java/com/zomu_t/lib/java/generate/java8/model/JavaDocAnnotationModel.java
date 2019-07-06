@@ -8,7 +8,7 @@ import lombok.*;
 /**
  * JavaDocのアノテーションを表すモデル.
  * 
- * @author takashimanozomu
+ * @author takashno
  *
  */
 @Getter

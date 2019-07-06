@@ -11,7 +11,7 @@ import lombok.*;
 /**
  * メソッドを表すモデル.
  *
- * @author takashimanozomu
+ * @author takashno
  */
 @Getter
 @Setter

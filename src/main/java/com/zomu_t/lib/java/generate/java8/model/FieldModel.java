@@ -10,7 +10,7 @@ import lombok.*;
 /**
  * フィールドを表すモデル.
  *
- * @author takashimanozomu
+ * @author takashno
  *
  */
 @Getter

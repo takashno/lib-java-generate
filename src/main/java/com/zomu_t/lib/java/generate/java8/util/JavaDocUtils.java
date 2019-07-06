@@ -7,7 +7,7 @@ import com.zomu_t.lib.java.generate.java8.model.JavaDocAnnotationModel;
 import com.zomu_t.lib.java.generate.java8.model.JavaDocModel;
 
 /**
- * @author takashimanozomu
+ * @author takashno
  */
 public final class JavaDocUtils {
 

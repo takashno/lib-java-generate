@@ -7,7 +7,7 @@ import lombok.*;
 /**
  * アノテーション属性を表すモデル.
  * 
- * @author takashimanozomu
+ * @author takashno
  *
  */
 @Getter

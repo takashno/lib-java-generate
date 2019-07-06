@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * アクセス修飾子を表す列挙型.
  * 
- * @author takashimanozomu
+ * @author takashno
  *
  */
 @Getter

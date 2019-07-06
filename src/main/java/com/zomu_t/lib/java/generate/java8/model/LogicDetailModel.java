@@ -8,7 +8,7 @@ import lombok.*;
 /**
  * ロジック詳細を表すモデル.
  * 
- * @author takashimanozomu
+ * @author takashno
  */
 @Getter
 @Setter

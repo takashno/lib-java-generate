@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Javaクラスを表すモデル.
  *
- * @author takashimanozomu
+ * @author takashno
  */
 @Getter
 @Setter
