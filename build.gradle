@@ -148,3 +148,10 @@ install {
 		}
 	}
 }
+
+task publishJavaDoc(type: Copy) {
+	from ('build/docs/javadoc') {
+		include '**/*.*'
+	}
+	into 'docs'
+}
