@@ -61,7 +61,7 @@ public abstract class JavaGenerator {
      *
      * @param context
      */
-    public void convert(GenerateContext context) {
+    public void generate(GenerateContext context) {
 
         log.debug("start java generate.");
 

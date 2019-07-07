@@ -1,4 +1,4 @@
-package com.zomu_t.lib.java.generate.java8;
+package example;
 
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;
 import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
@@ -18,12 +18,12 @@ import java.io.StringWriter;
  *
  * @author takashno
  */
-public class Java8EnumGenerateTest {
+public class Java8EnumGenerate {
 
     /**
      * ロガー
      */
-    private static final Logger log = LoggerFactory.getLogger(Java8EnumGenerateTest.class);
+    private static final Logger log = LoggerFactory.getLogger(Java8EnumGenerate.class);
 
     /**
      * サンプル出力処理.
@@ -39,7 +39,7 @@ public class Java8EnumGenerateTest {
                 // ファイルヘッダコメント
                 .commentHeader("/* Java8 Enum Generate Test. */")
                 // パッケージ
-                .packageName("com.zomu_t.lib.java.generate.java8")
+                .packageName("example")
                 // JavaDoc
                 .javaDoc(JavaDocModel.builder()
                         .mainContent("Enum出力サンプル.")
@@ -61,6 +61,7 @@ public class Java8EnumGenerateTest {
                         .type(TypeUtils.getStringClassModel())
                         .name("value")
                         .getterAutoCreate(true)
+                        .initConstructor(true)
                         .build())
                 // 列挙子
                 .enumerator(EnumeratorModel.builder()
@@ -70,17 +71,24 @@ public class Java8EnumGenerateTest {
                         .value(EnumeratorValueModel.builder()
                                 .stringAttr(true)
                                 .value("ほげ")
-                                .last(true)
                                 .build())
                         .build())
-                // コンストラクタ（まだ未完成・・・コンストラクタは別にするか・・・）
-                .method(MethodModel.builder()
-                        .accessModifier(AccessModifier.PRIVATE)
-                        .name("EnumSample")
-                        .arg(ArgModel.builder()
-                                .type(TypeUtils.getStringClassModel())
-                                .name("value")
+                .enumerator(EnumeratorModel.builder()
+                        .javaDoc(JavaDocModel.builder()
+                                .mainContent("ふが").build())
+                        .name("FUGA")
+                        .value(EnumeratorValueModel.builder()
+                                .stringAttr(true)
+                                .value("ふが")
                                 .build())
+                        .build())
+                // コンストラクタ
+                .constructor(ConstructorModel.builder()
+                        .javaDoc(JavaDocModel.builder()
+                                .mainContent("プライベートコンストラクタ")
+                                .build())
+                        .accessModifier(AccessModifier.PRIVATE)
+                        .constructorAutoCreate(true)
                         .build())
                 .build());
 
@@ -88,7 +96,7 @@ public class Java8EnumGenerateTest {
         Java8Generator converter = new Java8Generator();
         StringWriter sw = new StringWriter();
         target.setOutputWriter(sw);
-        converter.convert(context);
+        converter.generate(context);
         log.debug(sw.toString());
     }
 }

@@ -71,6 +71,12 @@ public class FieldModel implements Serializable {
     private boolean array = false;
 
     /**
+     * コンストラクタで初期化するかどうかのフラグ
+     */
+    @Builder.Default
+    private boolean initConstructor = false;
+
+    /**
      * Getter作成フラグ
      */
     @Builder.Default

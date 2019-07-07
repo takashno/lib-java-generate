@@ -1,5 +1,5 @@
 /* Java8 Class Generate Test. */
-package com.zomu_t.lib.java.generate.java8;
+package example;
 
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;
 import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
@@ -21,16 +21,16 @@ import java.io.StringWriter;
  * @author takashno
  * @since v0.0.2
  */
-public class Java8ClassGenerateTest {
+public class Java8ClassGenerate {
 
     /**
      * ロガー.
      */
-    private static final Logger log = LoggerFactory.getLogger(Java8ClassGenerateTest.class);
+    private static final Logger log = LoggerFactory.getLogger(Java8ClassGenerate.class);
 
     /**
      * 出力テスト.
-    *
+     *
      * @param args 引数
      */
     public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class Java8ClassGenerateTest {
                         // ヘッダーコメント
                         .commentHeader("/* Java8 Class Generate Test. */")
                         // パッケージ
-                        .packageName("com.zomu_t.lib.java.generate.java8")
+                        .packageName("example")
                         // インポート定義
                         .imports(ImportModel.builder()
                                 .packageName("com.zomu_t.lib.java.generate.common.context")
@@ -113,7 +113,7 @@ public class Java8ClassGenerateTest {
         StringWriter sw = new StringWriter();
         target.setOutputWriter(sw);
         Java8Generator converter = new Java8Generator();
-        converter.convert(context);
+        converter.generate(context);
 
         log.info(sw.toString());
 

@@ -101,6 +101,11 @@ public class ClassModel implements Clazz, Serializable {
     private List<FieldModel> fields = new ArrayList<>();
 
     /**
+     * コンストラクタ
+     */
+    private List<ConstructorModel> constructors = new ArrayList<>();
+
+    /**
      * メソッド
      */
     private List<MethodModel> methods = new ArrayList<>();
@@ -154,6 +159,7 @@ public class ClassModel implements Clazz, Serializable {
         private List<ClassModel> genericTypes = new ArrayList<>();
         private List<EnumeratorModel> enumerators = new ArrayList<>();
         private List<FieldModel> fields = new ArrayList<>();
+        private List<ConstructorModel> constructors = new ArrayList<>();
         private List<MethodModel> methods = new ArrayList<>();
         private boolean primitive = false;
         private boolean last = false;
@@ -283,14 +289,6 @@ public class ClassModel implements Clazz, Serializable {
                 this.fields = new ArrayList<>();
             }
             this.fields.addAll(fields);
-            for (FieldModel field : fields) {
-                if (field.isGetterAutoCreate()) {
-                    this.method(FieldUtils.createGetterMethod(field));
-                }
-                if (field.isSetterAutoCreate()) {
-                    this.method(FieldUtils.createSetterMethod(field));
-                }
-            }
             return this;
         }
 
@@ -299,12 +297,22 @@ public class ClassModel implements Clazz, Serializable {
                 this.fields = new ArrayList<>();
             }
             this.fields.add(field);
-            if (field.isGetterAutoCreate()) {
-                this.method(FieldUtils.createGetterMethod(field));
+            return this;
+        }
+
+        public ClassModelBuilder constructors(final List<ConstructorModel> constructors) {
+            if (this.constructors == null) {
+                this.constructors = new ArrayList<>();
             }
-            if (field.isSetterAutoCreate()) {
-                this.method(FieldUtils.createSetterMethod(field));
+            this.constructors.addAll(constructors);
+            return this;
+        }
+
+        public ClassModelBuilder constructor(final ConstructorModel constructor) {
+            if (this.constructors == null) {
+                this.constructors = new ArrayList<>();
             }
+            this.constructors.add(constructor);
             return this;
         }
 
@@ -350,6 +358,7 @@ public class ClassModel implements Clazz, Serializable {
                     this.genericTypes,
                     this.enumerators,
                     this.fields,
+                    this.constructors,
                     this.methods,
                     this.primitive,
                     this.last);
@@ -361,16 +370,5 @@ public class ClassModel implements Clazz, Serializable {
         return new ClassModelBuilder();
     }
 
-    public void setFields(List<FieldModel> fields) {
-        this.fields = fields;
-        for (FieldModel field : fields) {
-            if (field.isGetterAutoCreate()) {
-                this.methods.add(FieldUtils.createGetterMethod(field));
-            }
-            if (field.isSetterAutoCreate()) {
-                this.methods.add(FieldUtils.createSetterMethod(field));
-            }
-        }
-    }
 
 }

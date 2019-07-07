@@ -40,4 +40,10 @@ public class EnumeratorModel implements Serializable {
      */
     @Singular
     private List<EnumeratorValueModel> values = new ArrayList<>();
+
+    /**
+     * 最終フラグ
+     */
+    @Builder.Default
+    private boolean last = false;
 }

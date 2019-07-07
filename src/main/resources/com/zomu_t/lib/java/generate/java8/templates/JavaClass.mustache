@@ -22,7 +22,7 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 {{#enumerators}}{{!列挙子}}
 
 {{#javaDoc}}    /** {{#mainContents}}{{& .}}{{/mainContents}} */{{/javaDoc}}
-    {{name}}({{#values}}{{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/values}});
+    {{name}}({{#values}}{{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/values}}){{^last}},{{/last}}{{#last}};{{/last}}
 {{/enumerators}}
 {{#fields}}{{!フィールド}}
 
@@ -31,6 +31,28 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 {{/annotations}}
     {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifier}}{{.}} {{/fieldModifier}}{{#type}}{{ClassName}}{{#array}}[]{{/array}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
 {{/fields}}
+{{#constructors}}{{!コンストラクタ}}
+
+{{#javaDoc}}
+    /**
+{{#inheritDoc}}     * {@inheritDoc}{{/inheritDoc}}{{^inheritDoc}}{{#mainContents}}     * {{& .}}<br>
+{{/mainContents}}
+{{#annotations}}
+     *
+{{/annotations}}
+{{#annotations}}     * @{{name}} {{#contents}}{{& .}} {{/contents}}
+{{/annotations}}
+     *
+{{/inheritDoc}}
+     */
+{{/javaDoc}}
+{{#annotations}}    @{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
+{{/annotations}}
+    {{#accessModifier}}{{.}} {{/accessModifier}} {{className}}({{#args}}{{#argModifier}}{{.}} {{/argModifier}}{{#annotations}}@{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}} {{/annotations}}{{#type}}{{className}}{{#array}}[]{{/array}}{{/type}} {{name}}{{^last}}, {{/last}}{{/args}}){{#hasThrowTypes}} throws {{/hasThrowTypes}}{{#throwsTypes}}{{className}}{{#hasGenericTypes}}<{{/hasGenericTypes}}{{#genericTypes}}{{className}}{{^last}}, {{/last}}{{/genericTypes}}{{#hasGenericTypes}}>{{/hasGenericTypes}}{{/throwsTypes}}{{#isAbstractMethod}};{{/isAbstractMethod}}{{^isAbstractMethod}} {
+        {{#logic}}{{& content}}{{/logic}}{{^logic}}// TODO : To Be Logic...{{/logic}}
+    }
+{{/isAbstractMethod}}
+{{/constructors}}
 {{#methods}}{{!メソッド}}
 
 {{#javaDoc}}

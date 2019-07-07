@@ -20,7 +20,12 @@ public enum DefaultLogicTemplate {
     /**
      * Setterロジックテンプレートパス
      */
-    SETTER("com/zomu_t/lib/java/generate/java8/templates/SetterLogic.mustache");
+    SETTER("com/zomu_t/lib/java/generate/java8/templates/SetterLogic.mustache"),
+
+    /**
+     * コンストラクタロジックテンプレートパス
+     */
+    CONSTRUCTOR("com/zomu_t/lib/java/generate/java8/templates/ConstructorLogic.mustache");
 
     /**
      * パス

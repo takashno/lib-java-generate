@@ -6,9 +6,12 @@ import com.github.mustachejava.MustacheFactory;
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;
 import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
 import com.zomu_t.lib.java.generate.common.converter.JavaGenerator;
+import com.zomu_t.lib.java.generate.common.type.DefaultLogicTemplate;
 import com.zomu_t.lib.java.generate.java8.model.*;
+import com.zomu_t.lib.java.generate.java8.type.ArgModifier;
 import com.zomu_t.lib.java.generate.java8.type.ClassKind;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
+import com.zomu_t.lib.java.generate.java8.util.FieldUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,38 +37,6 @@ public class Java8Generator extends JavaGenerator {
 
     /**
      * {@inheritDoc}
-     * <hr/>
-     * scopesに設定したオブジェクトに対して、何かしらの前処理を行いたい場合は本メソッドをオーバーライドして実装してください.
-     */
-    @Override
-    protected void before(GenerateContext context) {
-
-        // 変換対象に対して前処理を行う.
-        for (GenerateTarget generateTarget : context.getTargets()) {
-
-            if (generateTarget.getClazz() != null
-                    && generateTarget.getClazz() instanceof ClassModel) {
-
-                ClassModel clazz = ClassModel.class.cast(generateTarget
-                        .getClazz());
-
-                // クラスモデルの最終フラグ調整
-                adjustLastFlg(clazz);
-
-                // インポート構成の調整
-                adjustImport(clazz);
-
-                // メソッドブロックの調整
-                adjustDefaultMethod(clazz);
-
-            }
-
-        }
-
-    }
-
-    /**
-     * {@inheritDoc}
      */
     @Override
     protected void beforeTarget(GenerateContext context,
@@ -76,23 +47,150 @@ public class Java8Generator extends JavaGenerator {
 
             ClassModel clazz = ClassModel.class.cast(generateTarget.getClazz());
 
-            // ロジックの生成
-            generateLogic(context, generateTarget, clazz);
+            // アクセスメソッドの生成（自動生成機能）
+            generateAccessMethod(context, generateTarget, clazz);
+
+            // コンストラクタロジックの生成
+            generateConstructorLogic(context, generateTarget, clazz);
+
+            // メソッドロジックの生成
+            generateMethodLogic(context, generateTarget, clazz);
+
+            // クラスモデルの最終フラグ調整
+            adjustLastFlg(clazz);
+
+            // インポート構成の調整
+            adjustImport(clazz);
+
+            // メソッドブロックの調整
+            adjustDefaultMethod(clazz);
 
         }
 
     }
 
     /**
-     * 変換対象のロジックがあるのであれば変換してロジックのコンテンツに加える.
+     * アクセスメソッドの生成.
      *
-     * @param context
-     * @param generateTarget
-     * @param classModel
-     * @throws Exception
+     * @param context        生成コンテキスト
+     * @param generateTarget 生成対象
+     * @param classModel     クラスモデル
+     * @throws Exception エラー
      */
-    private void generateLogic(GenerateContext context,
-                               GenerateTarget generateTarget, ClassModel classModel)
+    private void generateAccessMethod(GenerateContext context,
+                                      GenerateTarget generateTarget, ClassModel classModel) throws Exception {
+
+        if (CollectionUtils.isNotEmpty(classModel.getFields())) {
+            for (FieldModel field : classModel.getFields()) {
+                if (field.isGetterAutoCreate()) {
+                    classModel.getMethods().add(FieldUtils.createGetterMethod(field));
+                }
+                if (field.isSetterAutoCreate()) {
+                    classModel.getMethods().add(FieldUtils.createSetterMethod(field));
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 生成対象にメソッドのロジックがあるのであれば変換してロジックのコンテンツに加える.
+     *
+     * @param context        生成コンテキスト
+     * @param generateTarget 生成対象
+     * @param classModel     クラスモデル
+     * @throws Exception エラー
+     */
+    private void generateConstructorLogic(GenerateContext context,
+                                          GenerateTarget generateTarget, ClassModel classModel)
+            throws Exception {
+
+        if (CollectionUtils.isNotEmpty(classModel.getConstructors())) {
+
+            for (ConstructorModel cm : classModel.getConstructors()) {
+
+                if (cm.getLogic() != null
+                        && CollectionUtils.isNotEmpty(cm.getLogic()
+                        .getDetails())) {
+
+                    for (int i = 0; i < cm.getLogic().getDetails().size(); i++) {
+
+                        ConstructorLogicDetailModel ldm = cm.getLogic().getDetails()
+                                .get(i);
+
+                        log.debug("--- constructor logic generate #{} ---", (i + 1));
+                        log.debug("template     : {}", ldm.getTemplatePath());
+                        log.debug("scope size   : {}", ldm.getScopes().size());
+
+                        // ファクトリの生成
+                        MustacheFactory mf = new DefaultMustacheFactory();
+
+                        // テンプレートのコンパイル
+                        Mustache m = mf.compile(ldm.getTemplatePath());
+
+                        try (StringWriter sw = new StringWriter()) {
+
+                            // 変換処理
+                            m.execute(sw, ldm.getScopes().toArray()).flush();
+
+                            // 変換したロジックを追記
+                            cm.getLogic().getContent().append(sw.toString());
+
+                        }
+                    }
+                } else {
+
+                    if (cm.isConstructorAutoCreate()) {
+
+                        if (CollectionUtils.isNotEmpty(classModel.getFields())) {
+
+                            // コンストラクタで初期化対象のフィールドについて引数を作成する
+                            for (FieldModel fm : classModel.getFields()) {
+                                if (fm.isInitConstructor()) {
+                                    if (cm.getArgs() == null) {
+                                        cm.setArgs(new ArrayList<>());
+                                    }
+                                    cm.getArgs().add(ArgModel.builder()
+                                            .argModifier(ArgModifier.FINAL)
+                                            .type(fm.getType())
+                                            .name(fm.getName())
+                                            .build());
+                                }
+                            }
+
+                            // ファクトリの生成
+                            MustacheFactory mf = new DefaultMustacheFactory();
+
+                            // テンプレートのコンパイル
+                            Mustache m = mf.compile(DefaultLogicTemplate.CONSTRUCTOR.getPath());
+
+                            try (StringWriter sw = new StringWriter()) {
+
+                                // 変換処理
+                                m.execute(sw, new Object[]{classModel}).flush();
+
+                                // 変換したロジックを追記
+                                cm.setLogic(ConstructorLogicModel.builder().content(new StringBuilder(sw.toString())).build());
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    /**
+     * 生成対象にメソッドのロジックがあるのであれば変換してロジックのコンテンツに加える.
+     *
+     * @param context        生成コンテキスト
+     * @param generateTarget 生成対象
+     * @param classModel     クラスモデル
+     * @throws Exception エラー
+     */
+    private void generateMethodLogic(GenerateContext context,
+                                     GenerateTarget generateTarget, ClassModel classModel)
             throws Exception {
 
         if (CollectionUtils.isNotEmpty(classModel.getMethods())) {
@@ -108,7 +206,7 @@ public class Java8Generator extends JavaGenerator {
                         LogicDetailModel ldm = mm.getLogic().getDetails()
                                 .get(i);
 
-                        log.debug("--- logic generate #{} ---", (i + 1));
+                        log.debug("--- method logic generate #{} ---", (i + 1));
                         log.debug("template     : {}", ldm.getTemplatePath());
                         log.debug("scope size   : {}", ldm.getScopes().size());
 
@@ -134,9 +232,11 @@ public class Java8Generator extends JavaGenerator {
     }
 
     /**
-     * 総称型の最終フラグの調整処理.
+     * 最終フラグの調整処理.
+     * この処理は、様々な要素が最終である場合にlastフラグを立てる処理.
+     * いわゆるカンマで区切るような、引数など複数を指定が可能な要素の最後をmustacheで判定するためのもの.
      *
-     * @param classModel
+     * @param classModel クラスモデル
      */
     private void adjustLastFlg(ClassModel classModel) {
         // 総称型
@@ -217,6 +317,62 @@ public class Java8Generator extends JavaGenerator {
                 }
             }
         }
+        // 列挙子
+        if (classModel.getEnumerators() != null) {
+            for (int i = 0; i < classModel.getEnumerators().size(); i++) {
+                EnumeratorModel em = classModel.getEnumerators().get(i);
+                if (i + 1 == classModel.getEnumerators().size()) {
+                    em.setLast(true);
+                } else {
+                    em.setLast(false);
+                }
+                if (em.getValues() != null && !em.getValues().isEmpty()) {
+                    // 値
+                    for (int j = 0; j < em.getValues().size(); j++) {
+                        EnumeratorValueModel evm = em.getValues().get(j);
+                        if (j + 1 == em.getValues().size()) {
+                            evm.setLast(true);
+                        } else {
+                            evm.setLast(false);
+                        }
+                    }
+                }
+            }
+        }
+        // コンストラクタ
+        if (classModel.getConstructors() != null) {
+            for (ConstructorModel cm : classModel.getConstructors()) {
+                if (cm.getArgs() != null) {
+                    for (int i = 0; i < cm.getArgs().size(); i++) {
+                        // 再帰処理
+                        adjustLastFlg(cm.getArgs().get(i).getType());
+                        if (i + 1 == cm.getArgs().size()) {
+                            cm.getArgs().get(i).setLast(true);
+                        } else {
+                            cm.getArgs().get(i).setLast(false);
+                        }
+                        // アノテーション
+                        if (cm.getArgs().get(i).getAnnotations() != null) {
+                            for (AnnotationModel am : cm.getArgs().get(i)
+                                    .getAnnotations()) {
+                                if (am.getAttributes() != null) {
+                                    for (int j = 0; j < am.getAttributes()
+                                            .size(); j++) {
+                                        if (j + 1 == am.getAttributes().size()) {
+                                            am.getAttributes().get(j)
+                                                    .setLast(true);
+                                        } else {
+                                            am.getAttributes().get(j)
+                                                    .setLast(false);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         // メソッド
         if (classModel.getMethods() != null) {
             for (MethodModel mm : classModel.getMethods()) {
@@ -257,7 +413,7 @@ public class Java8Generator extends JavaGenerator {
     /**
      * インポート構成の調整処理.
      *
-     * @param classModel
+     * @param classModel クラスモデル
      */
     private void adjustImport(ClassModel classModel) {
 
@@ -310,8 +466,10 @@ public class Java8Generator extends JavaGenerator {
     }
 
     /**
-     * @param classModel
-     * @param imports
+     * インポートの編成.
+     *
+     * @param classModel クラスモデル
+     * @param imports    インポート編成
      */
     private void importCollect(ClassModel classModel,
                                Map<String, ImportModel> imports) {
@@ -494,7 +652,7 @@ public class Java8Generator extends JavaGenerator {
     /**
      * デフォルトメソッドの調整処理.
      *
-     * @param classModel
+     * @param classModel クラスモデル
      */
     private void adjustDefaultMethod(ClassModel classModel) {
 
@@ -518,6 +676,14 @@ public class Java8Generator extends JavaGenerator {
             }
         }
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void before(GenerateContext context) {
+        // Do nothing
     }
 
     /**

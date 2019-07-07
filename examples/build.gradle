@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'maven'
+}
+
+repositories {
+    maven {
+        url  "https://dl.bintray.com/takashno/takashno_maven_repo"
+    }
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(':')
+
+    // For Develop
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+
+}
+
+// Java
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    it.options.encoding = 'UTF-8'
+}

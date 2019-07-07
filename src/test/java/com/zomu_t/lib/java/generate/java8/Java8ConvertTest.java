@@ -21,7 +21,7 @@ public class Java8ConvertTest {
     /**
      * ロガー.
      */
-    private static final Logger log = LoggerFactory.getLogger(Java8ClassGenerateTest.class);
+    private static final Logger log = LoggerFactory.getLogger(Java8ConvertTest.class);
 
     /**
      * @param args
@@ -254,7 +254,7 @@ public class Java8ConvertTest {
         clazz.getMethods().add(mm2);
 
         Java8Generator converter = new Java8Generator();
-        converter.convert(context);
+        converter.generate(context);
 
         log.info("------------------------------");
         log.info(sw.toString());
