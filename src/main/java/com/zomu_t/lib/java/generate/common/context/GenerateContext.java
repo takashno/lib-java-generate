@@ -13,7 +13,7 @@ import lombok.Data;
  * @author takashimanozomu
  */
 @Data
-public class ConvertContext implements Serializable {
+public class GenerateContext implements Serializable {
 
     /**
      * デフォルトシリアルバージョンUID
@@ -23,7 +23,7 @@ public class ConvertContext implements Serializable {
     /**
      * 変換対象
      */
-    private final List<ConvertTarget> targets = new ArrayList<ConvertTarget>();
+    private final List<GenerateTarget> targets = new ArrayList<GenerateTarget>();
 
     /**
      * エラーを無視して続ける
@@ -36,27 +36,38 @@ public class ConvertContext implements Serializable {
     private boolean doFormat = true;
 
     /**
-     * 変換失敗対象リスト
+     * 生成失敗対象リスト
      */
-    private List<ConvertFailureTarget> failureTargets;
+    private List<GenerateFailureTarget> failureTargets;
 
     /**
-     * 変換対象を追加する.
+     * 生成対象を追加する.
      *
      * @param target 変換対象
      */
-    public void addTarget(final ConvertTarget target) {
+    public void addTarget(final GenerateTarget target) {
         this.targets.add(target);
     }
 
-    public ConvertTarget newTarget() {
-        ConvertTarget newTarget = new ConvertTarget();
+    /**
+     * 生成対象を作成します.
+     *
+     * @return 生成対象
+     */
+    public GenerateTarget newTarget() {
+        GenerateTarget newTarget = new GenerateTarget();
         this.targets.add(newTarget);
         return newTarget;
     }
 
-    public ConvertTarget newTarget(DefaultTemplate template) {
-        ConvertTarget newTarget = new ConvertTarget();
+    /**
+     * 生成対象を作成します.
+     *
+     * @param template テンプレート
+     * @return 生成対象
+     */
+    public GenerateTarget newTarget(DefaultTemplate template) {
+        GenerateTarget newTarget = new GenerateTarget();
         newTarget.setTemplatePath(template.getPath());
         this.targets.add(newTarget);
         return newTarget;

@@ -6,19 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * 変換失敗対象.
+ * 生成失敗対象.
  * 
- * @author takashimanozomu
+ * @author takashno
  */
 @Data
 @AllArgsConstructor
-public class ConvertFailureTarget implements Serializable {
+public class GenerateFailureTarget implements Serializable {
 
 	/** デフォルトシリアルバージョンUID */
 	private static final long serialVersionUID = 1L;
 
 	/** 変換対象 */
-	private ConvertTarget convertTarget;
+	private GenerateTarget generateTarget;
 
 	/** 例外事象 */
 	private Throwable cause;

@@ -4,6 +4,7 @@ import com.zomu_t.lib.java.generate.common.model.Clazz;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.ClassKind;
 import com.zomu_t.lib.java.generate.java8.type.TypeModifier;
+import com.zomu_t.lib.java.generate.java8.util.FieldUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -282,6 +283,14 @@ public class ClassModel implements Clazz, Serializable {
                 this.fields = new ArrayList<>();
             }
             this.fields.addAll(fields);
+            for (FieldModel field : fields) {
+                if (field.isGetterAutoCreate()) {
+                    this.method(FieldUtils.createGetterMethod(field));
+                }
+                if (field.isSetterAutoCreate()) {
+                    this.method(FieldUtils.createSetterMethod(field));
+                }
+            }
             return this;
         }
 
@@ -290,6 +299,12 @@ public class ClassModel implements Clazz, Serializable {
                 this.fields = new ArrayList<>();
             }
             this.fields.add(field);
+            if (field.isGetterAutoCreate()) {
+                this.method(FieldUtils.createGetterMethod(field));
+            }
+            if (field.isSetterAutoCreate()) {
+                this.method(FieldUtils.createSetterMethod(field));
+            }
             return this;
         }
 
@@ -344,6 +359,18 @@ public class ClassModel implements Clazz, Serializable {
 
     public static ClassModelBuilder builder() {
         return new ClassModelBuilder();
+    }
+
+    public void setFields(List<FieldModel> fields) {
+        this.fields = fields;
+        for (FieldModel field : fields) {
+            if (field.isGetterAutoCreate()) {
+                this.methods.add(FieldUtils.createGetterMethod(field));
+            }
+            if (field.isSetterAutoCreate()) {
+                this.methods.add(FieldUtils.createSetterMethod(field));
+            }
+        }
     }
 
 }

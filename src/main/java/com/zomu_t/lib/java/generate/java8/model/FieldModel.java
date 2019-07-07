@@ -11,7 +11,6 @@ import lombok.*;
  * フィールドを表すモデル.
  *
  * @author takashno
- *
  */
 @Getter
 @Setter
@@ -20,37 +19,66 @@ import lombok.*;
 @NoArgsConstructor
 public class FieldModel implements Serializable {
 
-	/** デフォルトシリアルバージョンUID */
-	private static final long serialVersionUID = 1L;
+    /**
+     * デフォルトシリアルバージョンUID
+     */
+    private static final long serialVersionUID = 1L;
 
-	/** JavaDoc */
-	private JavaDocModel javaDoc;
+    /**
+     * JavaDoc
+     */
+    private JavaDocModel javaDoc;
 
-	/** アノテーション */
-	@Singular
-	private List<AnnotationModel> annotations;
+    /**
+     * アノテーション
+     */
+    @Singular
+    private List<AnnotationModel> annotations;
 
-	/** アクセス修飾子 */
-	@Builder.Default
-	private AccessModifier accessModifier = AccessModifier.PRIVATE;
+    /**
+     * アクセス修飾子
+     */
+    @Builder.Default
+    private AccessModifier accessModifier = AccessModifier.PRIVATE;
 
-	/** フィールド修飾子 */
-	@Singular
-	private List<FieldModifier> fieldModifiers;
+    /**
+     * フィールド修飾子
+     */
+    @Singular
+    private List<FieldModifier> fieldModifiers;
 
-	/** 型 */
-	@NonNull
-	private ClassModel type;
+    /**
+     * 型
+     */
+    @NonNull
+    private ClassModel type;
 
-	/** 名称 */
-	@NonNull
-	private String name;
+    /**
+     * 名称
+     */
+    @NonNull
+    private String name;
 
-	/** 初期値 */
-	private String initializationValue;
+    /**
+     * 初期値
+     */
+    private String initializationValue;
 
-	/** 配列フラグ */
-	@Builder.Default
-	private boolean array = false;
+    /**
+     * 配列フラグ
+     */
+    @Builder.Default
+    private boolean array = false;
 
+    /**
+     * Getter作成フラグ
+     */
+    @Builder.Default
+    private boolean getterAutoCreate = false;
+
+    /**
+     * Setter作成フラグ
+     */
+    @Builder.Default
+    private boolean setterAutoCreate = false;
 }

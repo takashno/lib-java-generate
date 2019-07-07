@@ -1,10 +1,10 @@
 /* Java8 Class Generate Test. */
 package com.zomu_t.lib.java.generate.java8;
 
-import com.zomu_t.lib.java.generate.common.context.ConvertContext;
-import com.zomu_t.lib.java.generate.common.context.ConvertTarget;
+import com.zomu_t.lib.java.generate.common.context.GenerateContext;
+import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
 import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
-import com.zomu_t.lib.java.generate.java8.converter.Java8Converter;
+import com.zomu_t.lib.java.generate.java8.converter.Java8Generator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
@@ -35,8 +35,8 @@ public class Java8ClassGenerateTest {
      */
     public static void main(String[] args) {
 
-        ConvertContext context = new ConvertContext();
-        ConvertTarget target = context.newTarget(DefaultTemplate.JAVA8);
+        GenerateContext context = new GenerateContext();
+        GenerateTarget target = context.newTarget(DefaultTemplate.JAVA8);
 
         // Setting Class
         ClassModel clazz =
@@ -48,16 +48,16 @@ public class Java8ClassGenerateTest {
                         // インポート定義
                         .imports(ImportModel.builder()
                                 .packageName("com.zomu_t.lib.java.generate.common.context")
-                                .className("ConvertContext").build())
+                                .className("GenerateContext").build())
                         .imports(ImportModel.builder()
                                 .packageName("com.zomu_t.lib.java.generate.common.context")
-                                .className("ConvertTarget").build())
+                                .className("GenerateTarget").build())
                         .imports(ImportModel.builder()
                                 .packageName("com.zomu_t.lib.java.generate.common.type")
                                 .className("DefaultTemplate").build())
                         .imports(ImportModel.builder()
                                 .packageName("com.zomu_t.lib.java.generate.java8.converter")
-                                .className("Java8Converter").build())
+                                .className("Java8Generator").build())
                         .imports(ImportModel.builder()
                                 .packageName("com.zomu_t.lib.java.generate.java8.model")
                                 .wildcard(true).build())
@@ -112,7 +112,7 @@ public class Java8ClassGenerateTest {
         // Convert
         StringWriter sw = new StringWriter();
         target.setOutputWriter(sw);
-        Java8Converter converter = new Java8Converter();
+        Java8Generator converter = new Java8Generator();
         converter.convert(context);
 
         log.info(sw.toString());

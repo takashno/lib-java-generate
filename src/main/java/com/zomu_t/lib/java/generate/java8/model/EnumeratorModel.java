@@ -1,10 +1,10 @@
 package com.zomu_t.lib.java.generate.java8.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +14,9 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class EnumeratorModel implements Serializable {
 
     /**
@@ -29,10 +32,12 @@ public class EnumeratorModel implements Serializable {
     /**
      * 名称
      */
+    @NonNull
     private String name;
 
     /**
      * 値
      */
-    private List<EnumeratorValueModel> values;
+    @Singular
+    private List<EnumeratorValueModel> values = new ArrayList<>();
 }

@@ -73,10 +73,10 @@ implementation 'com.zomu_t:lib-java-generate:0.0.2'
 /* Java8 Class Generate Test. */
 package com.zomu_t.lib.java.generate.java8;
 
-import com.zomu_t.lib.java.generate.common.context.ConvertContext;
-import com.zomu_t.lib.java.generate.common.context.ConvertTarget;
+import com.zomu_t.lib.java.generate.common.context.GenerateContext;
+import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
 import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
-import com.zomu_t.lib.java.generate.java8.converter.Java8Converter;
+import com.zomu_t.lib.java.generate.java8.converter.Java8Generator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
@@ -194,10 +194,10 @@ public class Java8ClassGenerateTest {
 /* Java8 Class Generate Test. */
 package com.zomu_t.lib.java.generate.java8;
 
-import com.zomu_t.lib.java.generate.common.context.ConvertContext;
-import com.zomu_t.lib.java.generate.common.context.ConvertTarget;
+import com.zomu_t.lib.java.generate.common.context.GenerateContext;
+import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
 import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
-import com.zomu_t.lib.java.generate.java8.converter.Java8Converter;
+import com.zomu_t.lib.java.generate.java8.converter.Java8Generator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;

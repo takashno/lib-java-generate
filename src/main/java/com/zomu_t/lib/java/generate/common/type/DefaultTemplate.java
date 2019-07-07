@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * デフォルトテンプレート定義.
  * 
- * @author takashimanozomu
+ * @author takashno
  */
 @Getter
 @AllArgsConstructor

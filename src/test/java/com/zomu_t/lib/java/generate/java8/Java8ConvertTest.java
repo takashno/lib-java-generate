@@ -1,9 +1,9 @@
 package com.zomu_t.lib.java.generate.java8;
 
-import com.zomu_t.lib.java.generate.common.context.ConvertContext;
-import com.zomu_t.lib.java.generate.common.context.ConvertTarget;
+import com.zomu_t.lib.java.generate.common.context.GenerateContext;
+import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
 import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
-import com.zomu_t.lib.java.generate.java8.converter.Java8Converter;
+import com.zomu_t.lib.java.generate.java8.converter.Java8Generator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
@@ -28,9 +28,9 @@ public class Java8ConvertTest {
      */
     public static void main(String[] args) {
 
-        ConvertContext context = new ConvertContext();
+        GenerateContext context = new GenerateContext();
 
-        ConvertTarget target = new ConvertTarget();
+        GenerateTarget target = new GenerateTarget();
 
         ClassModel clazz = new ClassModel();
 
@@ -253,7 +253,7 @@ public class Java8ConvertTest {
 
         clazz.getMethods().add(mm2);
 
-        Java8Converter converter = new Java8Converter();
+        Java8Generator converter = new Java8Generator();
         converter.convert(context);
 
         log.info("------------------------------");

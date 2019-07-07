@@ -3,9 +3,9 @@ package com.zomu_t.lib.java.generate.java8.converter;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import com.zomu_t.lib.java.generate.common.context.ConvertContext;
-import com.zomu_t.lib.java.generate.common.context.ConvertTarget;
-import com.zomu_t.lib.java.generate.common.converter.JavaConverter;
+import com.zomu_t.lib.java.generate.common.context.GenerateContext;
+import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
+import com.zomu_t.lib.java.generate.common.converter.JavaGenerator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.ClassKind;
 import com.zomu_t.lib.java.generate.java8.type.MethodModifier;
@@ -25,12 +25,12 @@ import java.util.Map;
  *
  * @author takashno
  */
-public class Java8Converter extends JavaConverter {
+public class Java8Generator extends JavaGenerator {
 
     /**
      * ロガー.
      */
-    private static final Logger log = LoggerFactory.getLogger(Java8Converter.class);
+    private static final Logger log = LoggerFactory.getLogger(Java8Generator.class);
 
     /**
      * {@inheritDoc}
@@ -38,15 +38,15 @@ public class Java8Converter extends JavaConverter {
      * scopesに設定したオブジェクトに対して、何かしらの前処理を行いたい場合は本メソッドをオーバーライドして実装してください.
      */
     @Override
-    protected void before(ConvertContext context) {
+    protected void before(GenerateContext context) {
 
         // 変換対象に対して前処理を行う.
-        for (ConvertTarget convertTarget : context.getTargets()) {
+        for (GenerateTarget generateTarget : context.getTargets()) {
 
-            if (convertTarget.getClazz() != null
-                    && convertTarget.getClazz() instanceof ClassModel) {
+            if (generateTarget.getClazz() != null
+                    && generateTarget.getClazz() instanceof ClassModel) {
 
-                ClassModel clazz = ClassModel.class.cast(convertTarget
+                ClassModel clazz = ClassModel.class.cast(generateTarget
                         .getClazz());
 
                 // クラスモデルの最終フラグ調整
@@ -68,16 +68,16 @@ public class Java8Converter extends JavaConverter {
      * {@inheritDoc}
      */
     @Override
-    protected void beforeTarget(ConvertContext context,
-                                ConvertTarget convertTarget) throws Exception {
+    protected void beforeTarget(GenerateContext context,
+                                GenerateTarget generateTarget) throws Exception {
 
-        if (convertTarget.getClazz() != null
-                && convertTarget.getClazz() instanceof ClassModel) {
+        if (generateTarget.getClazz() != null
+                && generateTarget.getClazz() instanceof ClassModel) {
 
-            ClassModel clazz = ClassModel.class.cast(convertTarget.getClazz());
+            ClassModel clazz = ClassModel.class.cast(generateTarget.getClazz());
 
             // ロジックの生成
-            generateLogic(context, convertTarget, clazz);
+            generateLogic(context, generateTarget, clazz);
 
         }
 
@@ -87,12 +87,12 @@ public class Java8Converter extends JavaConverter {
      * 変換対象のロジックがあるのであれば変換してロジックのコンテンツに加える.
      *
      * @param context
-     * @param convertTarget
+     * @param generateTarget
      * @param classModel
      * @throws Exception
      */
-    private void generateLogic(ConvertContext context,
-                               ConvertTarget convertTarget, ClassModel classModel)
+    private void generateLogic(GenerateContext context,
+                               GenerateTarget generateTarget, ClassModel classModel)
             throws Exception {
 
         if (CollectionUtils.isNotEmpty(classModel.getMethods())) {
@@ -108,7 +108,7 @@ public class Java8Converter extends JavaConverter {
                         LogicDetailModel ldm = mm.getLogic().getDetails()
                                 .get(i);
 
-                        log.debug("--- logic convert #{} ---", (i + 1));
+                        log.debug("--- logic generate #{} ---", (i + 1));
                         log.debug("template     : {}", ldm.getTemplatePath());
                         log.debug("scope size   : {}", ldm.getScopes().size());
 
@@ -524,7 +524,7 @@ public class Java8Converter extends JavaConverter {
      * {@inheritDoc}
      */
     @Override
-    protected void after(ConvertContext context) {
+    protected void after(GenerateContext context) {
         // Do nothing
     }
 
@@ -532,8 +532,8 @@ public class Java8Converter extends JavaConverter {
      * {@inheritDoc}
      */
     @Override
-    protected void afterTarget(ConvertContext context,
-                               ConvertTarget convertTarget) throws Exception {
+    protected void afterTarget(GenerateContext context,
+                               GenerateTarget generateTarget) throws Exception {
         // Do nothing
     }
 
