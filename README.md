@@ -20,7 +20,7 @@ Javaの言語仕様に沿った [mustache](https://mustache.github.io/) テン�
 |:---|:---:|:---:|:---:|:---:|
 |アクセス修飾子|◯|◯|◯|◯|
 |修飾子（複数可）|◯|◯||◯|
-|JavaDoc|◯|◯|◯|◯|
+|[JavaDoc](#JavaDocの作成)|◯|◯|◯|◯|
 |アノテーション（複数可）|◯|◯|◯|◯|
 |継承|◯||||
 |実装（複数可）|◯||||
@@ -100,3 +100,75 @@ ClassModel classModel =
 `ClassModel` はJavaの言語仕様をモデル化しているため、 `Field` や `Method` といった要素持ちます。また本ライブラリはソースコードの自動生成を目的としているため、 `JavaDoc` 等についてもモデルの一部として表しています。 `JavaDocのアノテーション` まで作ることが可能です。（@author、@Param、@return など）
 どのようなメソッドが公開されているかは、[JavaDoc](https://takashno.github.io/lib-java-generate/)を参考にしていただきたいです。
 
+簡単ながら、抜粋的に各種要素の作り方を以降で説明します。
+
+
+### 共通的に作成するもの
+
+#### JavaDocの作成
+
+JavaDocを作成するためには、`JavaDocModel` を構築します。  
+実装例を示します。  
+
+```java
+JavaDocModel.builder()
+  .mainContent("メインドキュメント") // JavaDocの本文の１行分の文章
+  .annotation(JavaDocAnnotationModel.builder() // JavaDocのアノテーションを作成
+    .name("author") // authorを作成
+    .content("takashno").build())
+  .build();
+```
+
+出力した場合は以下のJavaDocになります。
+
+```java
+/**
+ * メインドキュメント
+ *
+ * @author takashno
+ */
+```
+
+JavaDocを付与できる要素は、[サポートしている言語仕様](#サポートしている言語仕様) をご確認ください。
+
+#### アノテーションの作成
+
+アノテーションを作成するためには、`AnnotationModel` を構築します。  
+実装例を示します。
+
+```java
+AnnotationModel.builder()
+  .packageName("example") // アノテーションのパッケージ名
+  .className("MyAnnotation") // アノテーションのクラス名
+  .attribute(AnnotationAttributeModel.builder() // 属性値を作成
+    .stringAttr(true) // 文字列値である場合「true」とする
+    .name("value") // 属性名
+    .value("値") // 属性値
+    .build())
+  .build();
+```
+
+出力した場合は以下のアノテーションとなります。
+
+```java
+import example.MyAnnotation;
+
+// omitted
+
+@MyAnnotation(value = "値")
+```
+
+アノテーションのクラスに対する `import` は自動的に付与されます。  
+また、`TYPE_USE` にも対応をしています。  
+アノテーションを付与できる要素は、[サポートしている言語仕様](#サポートしている言語仕様) をご確認ください。
+
+#### 引数の作成
+
+
+### クラスの作成
+
+### フィールドの作成
+
+### メソッドの作成
+
+### コンストラクタの作成

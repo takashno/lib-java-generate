@@ -74,8 +74,11 @@ public class Java8ConvertTest {
                 .builder()
                 .packageName("lombok")
                 .className("Data")
-                .attribute(
-                        new AnnotationAttributeModel(true, "value", "値", true))
+                .attribute(AnnotationAttributeModel.builder()
+                        .stringAttr(true)
+                        .name("value")
+                        .value("値")
+                        .build())
                 .last(true).build();
 
         clazz.setAnnotations(new ArrayList<AnnotationModel>());
