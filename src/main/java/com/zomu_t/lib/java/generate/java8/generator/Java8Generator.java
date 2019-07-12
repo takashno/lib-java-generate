@@ -1,4 +1,4 @@
-package com.zomu_t.lib.java.generate.java8.converter;
+package com.zomu_t.lib.java.generate.java8.generator;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -669,8 +669,9 @@ public class Java8Generator extends JavaGenerator {
         // インタフェース以外で抽象メソッドの場合はブロックの出力は不要
         if (classModel.getClassKind() != ClassKind.INTERFACE) {
             for (MethodModel mm : classModel.getMethods()) {
-                if (mm.getMethodModifiers().stream()
-                        .noneMatch(x -> x == MethodModifier.ABSTRACT)) {
+                if (CollectionUtils.isNotEmpty(mm.getMethodModifiers())
+                        && mm.getMethodModifiers().stream()
+                        .anyMatch(x -> x == MethodModifier.ABSTRACT)) {
                     mm.setNoneBlockMethod(true);
                 }
             }

@@ -1,12 +1,12 @@
 package com.zomu_t.lib.java.generate.common.context;
 
+import com.zomu_t.lib.java.generate.common.model.Clazz;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.zomu_t.lib.java.generate.common.model.Clazz;
-import lombok.Data;
 
 /**
  * 生成対象.

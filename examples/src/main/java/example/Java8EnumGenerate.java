@@ -3,7 +3,7 @@ package example;
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;
 import com.zomu_t.lib.java.generate.common.context.GenerateTarget;
 import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
-import com.zomu_t.lib.java.generate.java8.converter.Java8Generator;
+import com.zomu_t.lib.java.generate.java8.generator.Java8Generator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.ClassKind;

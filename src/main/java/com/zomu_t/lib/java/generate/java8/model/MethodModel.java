@@ -90,15 +90,6 @@ public class MethodModel implements Serializable {
         return throwsTypes == null ? false : throwsTypes.size() > 0;
     }
 
-    /**
-     * 抽象メソッドであるかどうか判定します.
-     *
-     * @return
-     */
-    public boolean isAbstractMethod() {
-        return methodModifiers == null ? false : methodModifiers.stream()
-                .anyMatch(x -> x == MethodModifier.ABSTRACT);
-    }
 
     public void addMethodModifiers(MethodModifier methodModifier) {
         this.methodModifiers.add(methodModifier);

@@ -1,11 +1,11 @@
 package com.zomu_t.lib.java.generate.common.context;
 
+import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.zomu_t.lib.java.generate.common.type.DefaultTemplate;
-import lombok.Data;
 
 /**
  * 変換コンテキスト.

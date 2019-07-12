@@ -135,7 +135,7 @@ public class ClassModel implements Clazz, Serializable {
      * @return
      */
     public boolean hasImplementsClasses() {
-        return implementsClasses == null ? false : implementsClasses.size() > 0;
+        return implementsClasses != null && implementsClasses.size() > 0;
     }
 
 
