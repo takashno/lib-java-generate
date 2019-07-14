@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.StringWriter;
 
 /**
- * ENUM出力サンプル.
+ * Java8のENUM出力サンプル.
  *
  * @author takashno
  */

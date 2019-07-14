@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.io.StringWriter;
 
 /**
- * Java8のClass出力テスト.<br>
+ * Java8のAbstractClass出力テスト.<br>
  *
  * @author takashno
  * @since v0.0.2
@@ -80,8 +80,8 @@ public class Java8AbstractClassGenerate {
                 MethodModel.builder()
                         .accessModifier(AccessModifier.PROTECTED)
                         .methodModifier(MethodModifier.ABSTRACT)
-                        .name("defaultMethodSample")
-                        .javaDoc(JavaDocUtils.getMethodJavaDocModel("アブストラクトメソッドのサンプル.",
+                        .name("abstractMethodSample")
+                        .javaDoc(JavaDocUtils.getMethodJavaDocModel("抽象メソッドのサンプル.",
                                 JavaDocAnnotationModel.builder()
                                         .name("param")
                                         .content("args")

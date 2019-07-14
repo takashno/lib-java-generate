@@ -109,7 +109,7 @@ public class Java8ClassGenerate {
         clazz.getMethods().add(method);
 
 
-        // Convert
+        // Generaet
         StringWriter sw = new StringWriter();
         target.setOutputWriter(sw);
         Java8Generator converter = new Java8Generator();

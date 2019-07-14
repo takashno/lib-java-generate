@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.io.StringWriter;
 
 /**
- * Java8のClass出力テスト.<br>
+ * Java8のInterface出力テスト.<br>
  *
  * @author takashno
  * @since v0.0.2
