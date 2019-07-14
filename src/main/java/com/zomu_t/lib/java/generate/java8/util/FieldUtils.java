@@ -208,6 +208,10 @@ public class FieldUtils {
                         .build())
                 .accessModifier(AccessModifier.PUBLIC)
                 .name("set" + WordUtils.capitalize(fieldModel.getName()))
+                .arg(ArgModel.builder()
+                        .type(fieldModel.getType())
+                        .name(fieldModel.getName())
+                        .build())
                 .logic(logicModel)
                 .build();
     }
