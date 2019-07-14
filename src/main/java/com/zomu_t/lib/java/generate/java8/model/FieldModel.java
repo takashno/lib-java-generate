@@ -38,7 +38,6 @@ public class FieldModel implements Serializable {
     /**
      * アクセス修飾子
      */
-    @Builder.Default
     private AccessModifier accessModifier = AccessModifier.PRIVATE;
 
     /**

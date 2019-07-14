@@ -2,6 +2,10 @@ package com.zomu_t.lib.java.generate.java8.util;
 
 import java.util.Arrays;
 
+import com.zomu_t.lib.java.generate.java8.model.FieldModel;
+import com.zomu_t.lib.java.generate.java8.model.JavaDocModel;
+import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
+import com.zomu_t.lib.java.generate.java8.type.FieldModifier;
 import lombok.val;
 import lombok.experimental.UtilityClass;
 
@@ -212,6 +216,34 @@ public class TypeUtils {
                 .className(className).genericTypes(Arrays.asList(genericTypes))
                 .build();
         return cm;
+    }
+
+    /**
+     * 指定されたクラスに対して、java.io.Serializableの実装とデフォルトシリアルバージョンUIDのフィールドを設定します.
+     *
+     * @param classModel クラスモデル
+     */
+    public void setImplementsSerializable(ClassModel classModel) {
+
+        classModel.
+                getImplementsClasses().add(
+                ClassModel.builder()
+                        .packageName("java.io")
+                        .className("Serializable")
+                        .build());
+
+        classModel.getFields().add(0,
+                FieldModel.builder()
+                        .javaDoc(JavaDocModel.builder()
+                                .mainContent("デフォルトシリアルバージョンUID")
+                                .build())
+                        .accessModifier(AccessModifier.PRIVATE)
+                        .fieldModifier(FieldModifier.STATIC)
+                        .fieldModifier(FieldModifier.FINAL)
+                        .type(TypeUtils.getPrimitiveLongClassModel())
+                        .name("serialVersionUID")
+                        .initializationValue("1L")
+                        .build());
     }
 
 }

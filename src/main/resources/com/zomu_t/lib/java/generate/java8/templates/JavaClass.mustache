@@ -29,7 +29,7 @@ import {{#staticImport}}static {{/staticImport}}{{packageName}}{{#className}}.{{
 {{#javaDoc}}    /** {{#mainContents}}{{& .}}{{/mainContents}} */{{/javaDoc}}
 {{#annotations}}    @{{className}}{{#hasAttributes}}({{/hasAttributes}}{{#attributes}}{{name}}={{#stringAttr}}"{{/stringAttr}}{{value}}{{#stringAttr}}"{{/stringAttr}}{{^last}}, {{/last}}{{/attributes}}{{#hasAttributes}}){{/hasAttributes}}
 {{/annotations}}
-    {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifier}}{{.}} {{/fieldModifier}}{{#type}}{{ClassName}}{{#array}}[]{{/array}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
+    {{#accessModifier}}{{.}} {{/accessModifier}}{{#fieldModifiers}}{{.}} {{/fieldModifiers}}{{#type}}{{ClassName}}{{#array}}[]{{/array}}{{/type}} {{name}}{{#initializationValue}} = {{& .}}{{/initializationValue}};
 {{/fields}}
 {{#constructors}}{{!コンストラクタ}}
 
