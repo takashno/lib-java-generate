@@ -1,4 +1,4 @@
-/* Java8 Class Generate Test. */
+/* Java8 Abstract Class Generate Test. */
 package example;
 
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;

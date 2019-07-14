@@ -1,3 +1,4 @@
+/* Java8 Beans Generate Test. */
 package example;
 
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;
