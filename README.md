@@ -14,4 +14,4 @@
 
 ## JavaDoc
 
-JavaDocは [こちら](https://takashno.github.io/lib-java-generate/https://takashno.github.io/lib-java-generate/) で公開しています。
+JavaDocは [こちら](https://takashno.github.io/lib-java-generate/) で公開しています。
