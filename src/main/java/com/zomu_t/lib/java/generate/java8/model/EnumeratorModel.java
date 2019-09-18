@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnumeratorModel implements Serializable {
@@ -32,18 +31,61 @@ public class EnumeratorModel implements Serializable {
     /**
      * 名称
      */
-    @NonNull
     private String name;
 
     /**
      * 値
      */
-    @Singular
     private List<EnumeratorValueModel> values = new ArrayList<>();
 
     /**
      * 最終フラグ
      */
-    @Builder.Default
     private boolean last = false;
+
+
+    /**
+     * Builder.<br>
+     * Lombokと混在しているが、Listのプロパティを後々どうしても追加・変更・削除をしたかったため.
+     * Lombokで出力すると、UnmodifiableListとして扱われるため.
+     */
+    public static class EnumeratorModelBuilder {
+        private JavaDocModel javaDoc;
+        private String name;
+        private List<EnumeratorValueModel> values = new ArrayList<>();
+        private boolean last = false;
+
+        public EnumeratorModelBuilder javaDoc(JavaDocModel javaDoc) {
+            this.javaDoc = javaDoc;
+            return this;
+        }
+
+        public EnumeratorModelBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public EnumeratorModelBuilder value(EnumeratorValueModel value) {
+            this.values.add(value);
+            return this;
+        }
+
+        public EnumeratorModelBuilder values(List<EnumeratorValueModel> values) {
+            this.values = values;
+            return this;
+        }
+
+        public EnumeratorModelBuilder last(boolean last) {
+            this.last = last;
+            return this;
+        }
+
+        public EnumeratorModel build() {
+            return new EnumeratorModel(javaDoc, name, values, last);
+        }
+    }
+
+    public static EnumeratorModelBuilder builder() {
+        return new EnumeratorModelBuilder();
+    }
 }

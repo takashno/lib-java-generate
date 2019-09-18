@@ -17,7 +17,26 @@ import org.apache.commons.lang3.text.WordUtils;
 public class FieldUtils {
 
     /**
-     * java.lang.String用のフィールドモデルを取得します.
+     * フィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @param type            型
+     * @return
+     */
+    public FieldModel getFieldModel(String fieldName, String javaDocContents,
+                                    ClassModel type, boolean isSetterAutoCreate,
+                                    boolean isGetterAutoCreate) {
+        val fm = FieldModel.builder().type(type).name(fieldName)
+                .javaDoc(JavaDocUtils.getFieldJavaDocModel(javaDocContents))
+                .setterAutoCreate(isSetterAutoCreate)
+                .getterAutoCreate(isGetterAutoCreate)
+                .build();
+        return fm;
+    }
+
+    /**
+     * フィールドモデルを取得します.
      *
      * @param fieldName       フィールド名
      * @param javaDocContents JavaDocコンテンツ
@@ -32,6 +51,22 @@ public class FieldUtils {
         return fm;
     }
 
+
+    /**
+     * java.lang.String用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public FieldModel getStringFieldModel(String fieldName,
+                                          String javaDocContents, boolean isSetterAutoCreate,
+                                          boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getStringClassModel(), isSetterAutoCreate, isGetterAutoCreate);
+    }
+
+
     /**
      * java.lang.String用のフィールドモデルを取得します.
      *
@@ -43,6 +78,20 @@ public class FieldUtils {
                                           String javaDocContents) {
         return getFieldModel(fieldName, javaDocContents,
                 TypeUtils.getStringClassModel());
+    }
+
+    /**
+     * java.lang.Short用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getShortFieldModel(String fieldName,
+                                                String javaDocContents, boolean isSetterAutoCreate,
+                                                boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getShortClassModel(), isSetterAutoCreate, isGetterAutoCreate);
     }
 
     /**
@@ -66,9 +115,37 @@ public class FieldUtils {
      * @return
      */
     public static FieldModel getIntegerFieldModel(String fieldName,
+                                                  String javaDocContents, boolean isSetterAutoCreate,
+                                                  boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getIntegerClassModel(), isSetterAutoCreate, isGetterAutoCreate);
+    }
+
+    /**
+     * java.lang.Integer用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getIntegerFieldModel(String fieldName,
                                                   String javaDocContents) {
         return getFieldModel(fieldName, javaDocContents,
                 TypeUtils.getIntegerClassModel());
+    }
+
+    /**
+     * java.lang.Long用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getLongFieldModel(String fieldName,
+                                               String javaDocContents, boolean isSetterAutoCreate,
+                                               boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getLongClassModel(), isSetterAutoCreate, isGetterAutoCreate);
     }
 
     /**
@@ -85,7 +162,21 @@ public class FieldUtils {
     }
 
     /**
-     * java.lang.Long用のフィールドモデルを取得します.
+     * java.lang.Double用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getDoubleFieldModel(String fieldName,
+                                                 String javaDocContents, boolean isSetterAutoCreate,
+                                                 boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getDoubleClassModel(), isSetterAutoCreate, isGetterAutoCreate);
+    }
+
+    /**
+     * java.lang.Double用のフィールドモデルを取得します.
      *
      * @param fieldName       フィールド名
      * @param javaDocContents JavaDocコンテンツ
@@ -95,6 +186,20 @@ public class FieldUtils {
                                                  String javaDocContents) {
         return getFieldModel(fieldName, javaDocContents,
                 TypeUtils.getDoubleClassModel());
+    }
+
+    /**
+     * java.lang.Float用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getFloatFieldModel(String fieldName,
+                                                String javaDocContents, boolean isSetterAutoCreate,
+                                                boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getFloatClassModel(), isSetterAutoCreate, isGetterAutoCreate);
     }
 
     /**
@@ -118,6 +223,20 @@ public class FieldUtils {
      * @return
      */
     public static FieldModel getBooleanFieldModel(String fieldName,
+                                                  String javaDocContents, boolean isSetterAutoCreate,
+                                                  boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getBooleanClassModel(), isSetterAutoCreate, isGetterAutoCreate);
+    }
+
+    /**
+     * java.lang.Boolean用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getBooleanFieldModel(String fieldName,
                                                   String javaDocContents) {
         return getFieldModel(fieldName, javaDocContents,
                 TypeUtils.getBooleanClassModel());
@@ -131,9 +250,37 @@ public class FieldUtils {
      * @return
      */
     public static FieldModel getByteFieldModel(String fieldName,
+                                               String javaDocContents, boolean isSetterAutoCreate,
+                                               boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getByteClassModel(), isSetterAutoCreate, isGetterAutoCreate);
+    }
+
+    /**
+     * java.lang.Byte用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getByteFieldModel(String fieldName,
                                                String javaDocContents) {
         return getFieldModel(fieldName, javaDocContents,
                 TypeUtils.getByteClassModel());
+    }
+
+    /**
+     * java.lang.Character用のフィールドモデルを取得します.
+     *
+     * @param fieldName       フィールド名
+     * @param javaDocContents JavaDocコンテンツ
+     * @return
+     */
+    public static FieldModel getCharacterFieldModel(String fieldName,
+                                                    String javaDocContents, boolean isSetterAutoCreate,
+                                                    boolean isGetterAutoCreate) {
+        return getFieldModel(fieldName, javaDocContents,
+                TypeUtils.getCharacterClassModel(), isSetterAutoCreate, isGetterAutoCreate);
     }
 
     /**

@@ -13,7 +13,7 @@ ext {
 	// バージョン定義
 	versionMajor = 0
 	versionMinor = 0
-	versionPatch = 2
+	versionPatch = 3
 
 	// アーティファクト関連
 	group 'com.zomu_t'
