@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.generator;
 
 import com.github.mustachejava.DefaultMustacheFactory;
@@ -39,11 +40,9 @@ public class Java8Generator extends JavaGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected void beforeTarget(GenerateContext context,
-                                GenerateTarget generateTarget) throws Exception {
+    protected void beforeTarget(GenerateContext context, GenerateTarget generateTarget) throws Exception {
 
-        if (generateTarget.getClazz() != null
-                && generateTarget.getClazz() instanceof ClassModel) {
+        if (generateTarget.getClazz() != null && generateTarget.getClazz() instanceof ClassModel) {
 
             ClassModel clazz = ClassModel.class.cast(generateTarget.getClazz());
 
@@ -72,13 +71,13 @@ public class Java8Generator extends JavaGenerator {
     /**
      * アクセスメソッドの生成.
      *
-     * @param context        生成コンテキスト
+     * @param context 生成コンテキスト
      * @param generateTarget 生成対象
-     * @param classModel     クラスモデル
+     * @param classModel クラスモデル
      * @throws Exception エラー
      */
-    private void generateAccessMethod(GenerateContext context,
-                                      GenerateTarget generateTarget, ClassModel classModel) throws Exception {
+    private void generateAccessMethod(GenerateContext context, GenerateTarget generateTarget, ClassModel classModel)
+            throws Exception {
 
         if (CollectionUtils.isNotEmpty(classModel.getFields())) {
             for (FieldModel field : classModel.getFields()) {
@@ -96,27 +95,23 @@ public class Java8Generator extends JavaGenerator {
     /**
      * 生成対象にメソッドのロジックがあるのであれば変換してロジックのコンテンツに加える.
      *
-     * @param context        生成コンテキスト
+     * @param context 生成コンテキスト
      * @param generateTarget 生成対象
-     * @param classModel     クラスモデル
+     * @param classModel クラスモデル
      * @throws Exception エラー
      */
-    private void generateConstructorLogic(GenerateContext context,
-                                          GenerateTarget generateTarget, ClassModel classModel)
+    private void generateConstructorLogic(GenerateContext context, GenerateTarget generateTarget, ClassModel classModel)
             throws Exception {
 
         if (CollectionUtils.isNotEmpty(classModel.getConstructors())) {
 
             for (ConstructorModel cm : classModel.getConstructors()) {
 
-                if (cm.getLogic() != null
-                        && CollectionUtils.isNotEmpty(cm.getLogic()
-                        .getDetails())) {
+                if (cm.getLogic() != null && CollectionUtils.isNotEmpty(cm.getLogic().getDetails())) {
 
                     for (int i = 0; i < cm.getLogic().getDetails().size(); i++) {
 
-                        ConstructorLogicDetailModel ldm = cm.getLogic().getDetails()
-                                .get(i);
+                        ConstructorLogicDetailModel ldm = cm.getLogic().getDetails().get(i);
 
                         log.debug("--- constructor logic generate #{} ---", (i + 1));
                         log.debug("template     : {}", ldm.getTemplatePath());
@@ -150,11 +145,12 @@ public class Java8Generator extends JavaGenerator {
                                     if (cm.getArgs() == null) {
                                         cm.setArgs(new ArrayList<>());
                                     }
-                                    cm.getArgs().add(ArgModel.builder()
-                                            .argModifier(ArgModifier.FINAL)
-                                            .type(fm.getType())
-                                            .name(fm.getName())
-                                            .build());
+                                    cm.getArgs()
+                                            .add(ArgModel.builder()
+                                                    .argModifier(ArgModifier.FINAL)
+                                                    .type(fm.getType())
+                                                    .name(fm.getName())
+                                                    .build());
                                 }
                             }
 
@@ -167,10 +163,12 @@ public class Java8Generator extends JavaGenerator {
                             try (StringWriter sw = new StringWriter()) {
 
                                 // 変換処理
-                                m.execute(sw, new Object[]{classModel}).flush();
+                                m.execute(sw, new Object[] { classModel }).flush();
 
                                 // 変換したロジックを追記
-                                cm.setLogic(ConstructorLogicModel.builder().content(new StringBuilder(sw.toString())).build());
+                                cm.setLogic(ConstructorLogicModel.builder()
+                                        .content(new StringBuilder(sw.toString()))
+                                        .build());
                             }
 
                         }
@@ -184,27 +182,23 @@ public class Java8Generator extends JavaGenerator {
     /**
      * 生成対象にメソッドのロジックがあるのであれば変換してロジックのコンテンツに加える.
      *
-     * @param context        生成コンテキスト
+     * @param context 生成コンテキスト
      * @param generateTarget 生成対象
-     * @param classModel     クラスモデル
+     * @param classModel クラスモデル
      * @throws Exception エラー
      */
-    private void generateMethodLogic(GenerateContext context,
-                                     GenerateTarget generateTarget, ClassModel classModel)
+    private void generateMethodLogic(GenerateContext context, GenerateTarget generateTarget, ClassModel classModel)
             throws Exception {
 
         if (CollectionUtils.isNotEmpty(classModel.getMethods())) {
 
             for (MethodModel mm : classModel.getMethods()) {
 
-                if (mm.getLogic() != null
-                        && CollectionUtils.isNotEmpty(mm.getLogic()
-                        .getDetails())) {
+                if (mm.getLogic() != null && CollectionUtils.isNotEmpty(mm.getLogic().getDetails())) {
 
                     for (int i = 0; i < mm.getLogic().getDetails().size(); i++) {
 
-                        LogicDetailModel ldm = mm.getLogic().getDetails()
-                                .get(i);
+                        LogicDetailModel ldm = mm.getLogic().getDetails().get(i);
 
                         log.debug("--- method logic generate #{} ---", (i + 1));
                         log.debug("template     : {}", ldm.getTemplatePath());
@@ -232,8 +226,7 @@ public class Java8Generator extends JavaGenerator {
     }
 
     /**
-     * 最終フラグの調整処理.
-     * この処理は、様々な要素が最終である場合にlastフラグを立てる処理.
+     * 最終フラグの調整処理. この処理は、様々な要素が最終である場合にlastフラグを立てる処理.
      * いわゆるカンマで区切るような、引数など複数を指定が可能な要素の最後をmustacheで判定するためのもの.
      *
      * @param classModel クラスモデル
@@ -244,20 +237,16 @@ public class Java8Generator extends JavaGenerator {
             for (int i = 0; i < classModel.getGenericTypes().size(); i++) {
                 if (i + 1 == classModel.getGenericTypes().size()) {
                     classModel.getGenericTypes().get(i).setLast(true);
-                    if (CollectionUtils.isNotEmpty(classModel.getGenericTypes()
-                            .get(i).getGenericTypes())) {
-                        for (ClassModel clazz : classModel.getGenericTypes()
-                                .get(i).getGenericTypes()) {
+                    if (CollectionUtils.isNotEmpty(classModel.getGenericTypes().get(i).getGenericTypes())) {
+                        for (ClassModel clazz : classModel.getGenericTypes().get(i).getGenericTypes()) {
                             // 再帰処理
                             adjustLastFlg(clazz);
                         }
                     }
                 } else {
                     classModel.getGenericTypes().get(i).setLast(false);
-                    if (CollectionUtils.isNotEmpty(classModel.getGenericTypes()
-                            .get(i).getGenericTypes())) {
-                        for (ClassModel clazz : classModel.getGenericTypes()
-                                .get(i).getGenericTypes()) {
+                    if (CollectionUtils.isNotEmpty(classModel.getGenericTypes().get(i).getGenericTypes())) {
+                        for (ClassModel clazz : classModel.getGenericTypes().get(i).getGenericTypes()) {
                             // 再帰処理
                             adjustLastFlg(clazz);
                         }
@@ -353,17 +342,13 @@ public class Java8Generator extends JavaGenerator {
                         }
                         // アノテーション
                         if (cm.getArgs().get(i).getAnnotations() != null) {
-                            for (AnnotationModel am : cm.getArgs().get(i)
-                                    .getAnnotations()) {
+                            for (AnnotationModel am : cm.getArgs().get(i).getAnnotations()) {
                                 if (am.getAttributes() != null) {
-                                    for (int j = 0; j < am.getAttributes()
-                                            .size(); j++) {
+                                    for (int j = 0; j < am.getAttributes().size(); j++) {
                                         if (j + 1 == am.getAttributes().size()) {
-                                            am.getAttributes().get(j)
-                                                    .setLast(true);
+                                            am.getAttributes().get(j).setLast(true);
                                         } else {
-                                            am.getAttributes().get(j)
-                                                    .setLast(false);
+                                            am.getAttributes().get(j).setLast(false);
                                         }
                                     }
                                 }
@@ -387,17 +372,13 @@ public class Java8Generator extends JavaGenerator {
                         }
                         // アノテーション
                         if (mm.getArgs().get(i).getAnnotations() != null) {
-                            for (AnnotationModel am : mm.getArgs().get(i)
-                                    .getAnnotations()) {
+                            for (AnnotationModel am : mm.getArgs().get(i).getAnnotations()) {
                                 if (am.getAttributes() != null) {
-                                    for (int j = 0; j < am.getAttributes()
-                                            .size(); j++) {
+                                    for (int j = 0; j < am.getAttributes().size(); j++) {
                                         if (j + 1 == am.getAttributes().size()) {
-                                            am.getAttributes().get(j)
-                                                    .setLast(true);
+                                            am.getAttributes().get(j).setLast(true);
                                         } else {
-                                            am.getAttributes().get(j)
-                                                    .setLast(false);
+                                            am.getAttributes().get(j).setLast(false);
                                         }
                                     }
                                 }
@@ -442,8 +423,7 @@ public class Java8Generator extends JavaGenerator {
             for (ImportModel im : classModel.getImports()) {
 
                 // FQCN
-                String fqcn = StringUtils.join(im.getPackageName(),
-                        im.getClassName());
+                String fqcn = StringUtils.join(im.getPackageName(), im.getClassName());
 
                 // 追加対象がないのであればSKIP
                 if (StringUtils.isEmpty(fqcn))
@@ -451,8 +431,7 @@ public class Java8Generator extends JavaGenerator {
 
                 // FQCNの一致、ワイルドカードが一致、staticインポートが一致であれば追加不要
                 // kは収集処理にて各モデルから収集しているためクラス名までを含んだものでメソッド名は含まない
-                if (StringUtils.equals(fqcn, k)
-                        && im.isWildcard() == v.isWildcard()
+                if (StringUtils.equals(fqcn, k) && im.isWildcard() == v.isWildcard()
                         && im.isStaticImport() == v.isStaticImport())
                     return;
             }
@@ -469,59 +448,53 @@ public class Java8Generator extends JavaGenerator {
      * インポートの編成.
      *
      * @param classModel クラスモデル
-     * @param imports    インポート編成
+     * @param imports インポート編成
      */
-    private void importCollect(ClassModel classModel,
-                               Map<String, ImportModel> imports) {
+    private void importCollect(ClassModel classModel, Map<String, ImportModel> imports) {
 
         // アノテーションに対してインポートの処理を行う
         if (classModel.getAnnotations() != null) {
-            classModel.getAnnotations().forEach(
-                    x -> {
-                        String fqcn = StringUtils.join(x.getPackageName(), ".",
-                                x.getClassName());
-                        imports.putIfAbsent(fqcn, ImportModel.builder()
+            classModel.getAnnotations().forEach(x -> {
+                String fqcn = StringUtils.join(x.getPackageName(), ".", x.getClassName());
+                imports.putIfAbsent(fqcn,
+                        ImportModel.builder()
                                 .packageName(ClassUtils.getPackageName(fqcn))
                                 .className(ClassUtils.getShortClassName(fqcn))
                                 .build());
-                    });
+            });
         }
 
         // 実装インタフェースに対してインポートの収集を行う
         if (classModel.getImplementsClasses() != null) {
-            classModel.getImplementsClasses().forEach(
-                    x -> {
-                        String fqcn = StringUtils.join(x.getPackageName(), ".",
-                                x.getClassName());
-                        imports.putIfAbsent(fqcn, ImportModel.builder()
+            classModel.getImplementsClasses().forEach(x -> {
+                String fqcn = StringUtils.join(x.getPackageName(), ".", x.getClassName());
+                imports.putIfAbsent(fqcn,
+                        ImportModel.builder()
                                 .packageName(ClassUtils.getPackageName(fqcn))
                                 .className(ClassUtils.getShortClassName(fqcn))
                                 .build());
-                        importCollect(x, imports);
-                    });
+                importCollect(x, imports);
+            });
         }
 
         // 総称型に対してインポートの収集を行う
         if (classModel.getGenericTypes() != null) {
-            classModel.getGenericTypes().forEach(
-                    x -> {
-                        String fqcn = StringUtils.join(x.getPackageName(), ".",
-                                x.getClassName());
-                        imports.putIfAbsent(fqcn, ImportModel.builder()
+            classModel.getGenericTypes().forEach(x -> {
+                String fqcn = StringUtils.join(x.getPackageName(), ".", x.getClassName());
+                imports.putIfAbsent(fqcn,
+                        ImportModel.builder()
                                 .packageName(ClassUtils.getPackageName(fqcn))
                                 .className(ClassUtils.getShortClassName(fqcn))
                                 .build());
-                        importCollect(x, imports);
-                    });
+                importCollect(x, imports);
+            });
         }
 
         // 親クラスに対してインポートの収集を行う
         if (classModel.getSuperClass() != null) {
-            String fqcn = StringUtils.join(classModel.getSuperClass()
-                    .getPackageName(), ".", classModel.getSuperClass()
-                    .getClassName());
-            imports.putIfAbsent(
-                    fqcn,
+            String fqcn = StringUtils.join(classModel.getSuperClass().getPackageName(), ".",
+                    classModel.getSuperClass().getClassName());
+            imports.putIfAbsent(fqcn,
                     ImportModel.builder()
                             .packageName(ClassUtils.getPackageName(fqcn))
                             .className(ClassUtils.getShortClassName(fqcn))
@@ -530,114 +503,64 @@ public class Java8Generator extends JavaGenerator {
         }
 
         // フィールドに対してインポートの収集を行う
-        if (classModel.getFields() != null
-                && CollectionUtils.isNotEmpty(classModel.getFields())) {
-            classModel.getFields().forEach(
-                    x -> {
-                        String fqcn = StringUtils.join(x.getType()
-                                .getPackageName(), ".", x.getType()
-                                .getClassName());
-                        imports.putIfAbsent(fqcn, ImportModel.builder()
+        if (classModel.getFields() != null && CollectionUtils.isNotEmpty(classModel.getFields())) {
+            classModel.getFields().forEach(x -> {
+                String fqcn = StringUtils.join(x.getType().getPackageName(), ".", x.getType().getClassName());
+                imports.putIfAbsent(fqcn,
+                        ImportModel.builder()
                                 .packageName(ClassUtils.getPackageName(fqcn))
                                 .className(ClassUtils.getShortClassName(fqcn))
                                 .build());
-                    });
+            });
         }
 
         // メソッドに対してインポートの収集を行う
-        if (classModel.getMethods() != null
-                && CollectionUtils.isNotEmpty(classModel.getMethods())) {
-            classModel
-                    .getMethods()
+        if (classModel.getMethods() != null && CollectionUtils.isNotEmpty(classModel.getMethods())) {
+            classModel.getMethods()
                     .forEach(x -> {
 
                         // 引数に対してインポートの収集を行う
-                        x.getArgs()
-                                .forEach(
-                                        y -> {
-                                            String fqcn = y.getType()
-                                                    .getPackageName()
-                                                    + "."
-                                                    + y.getType()
-                                                    .getClassName();
-                                            imports.putIfAbsent(
-                                                    fqcn,
-                                                    ImportModel
-                                                            .builder()
-                                                            .packageName(
-                                                                    ClassUtils
-                                                                            .getPackageName(fqcn))
-                                                            .className(
-                                                                    ClassUtils
-                                                                            .getShortClassName(fqcn))
-                                                            .build());
-                                        });
+                        x.getArgs().forEach(y -> {
+                            String fqcn = y.getType().getPackageName() + "." + y.getType().getClassName();
+                            imports.putIfAbsent(fqcn,
+                                    ImportModel.builder()
+                                            .packageName(ClassUtils.getPackageName(fqcn))
+                                            .className(ClassUtils.getShortClassName(fqcn))
+                                            .build());
+                        });
 
                         // アノテーションに対してインポートの収集を行う
-                        x.getAnnotations()
-                                .forEach(
-                                        y -> {
-                                            String fqcn = y
-                                                    .getPackageName()
-                                                    + "."
-                                                    + y.getClassName();
-                                            imports.putIfAbsent(
-                                                    fqcn,
-                                                    ImportModel
-                                                            .builder()
-                                                            .packageName(
-                                                                    ClassUtils
-                                                                            .getPackageName(fqcn))
-                                                            .className(
-                                                                    ClassUtils
-                                                                            .getShortClassName(fqcn))
-                                                            .build());
-                                        });
+                        x.getAnnotations().forEach(y -> {
+                            String fqcn = y.getPackageName() + "." + y.getClassName();
+                            imports.putIfAbsent(fqcn,
+                                    ImportModel.builder()
+                                            .packageName(ClassUtils.getPackageName(fqcn))
+                                            .className(ClassUtils.getShortClassName(fqcn))
+                                            .build());
+                        });
 
                         // throwsに対してインポートの収集を行う
-                        x.getThrowsTypes()
-                                .forEach(
-                                        y -> {
-                                            String fqcn = y
-                                                    .getPackageName()
-                                                    + "."
-                                                    + y.getClassName();
-                                            imports.putIfAbsent(
-                                                    fqcn,
-                                                    ImportModel
-                                                            .builder()
-                                                            .packageName(
-                                                                    ClassUtils
-                                                                            .getPackageName(fqcn))
-                                                            .className(
-                                                                    ClassUtils
-                                                                            .getShortClassName(fqcn))
-                                                            .build());
-                                        });
+                        x.getThrowsTypes().forEach(y -> {
+                            String fqcn = y.getPackageName() + "." + y.getClassName();
+                            imports.putIfAbsent(fqcn,
+                                    ImportModel.builder()
+                                            .packageName(ClassUtils.getPackageName(fqcn))
+                                            .className(ClassUtils.getShortClassName(fqcn))
+                                            .build());
+                        });
 
                         // 返却値に対してインポートの収集を行う
                         if (x.getReturnType() != null) {
-                            String fqcn = x.getReturnType().getType()
-                                    .getPackageName()
-                                    + "."
-                                    + x.getReturnType().getType()
-                                    .getClassName();
-                            imports.putIfAbsent(
-                                    fqcn,
-                                    ImportModel
-                                            .builder()
-                                            .packageName(
-                                                    ClassUtils
-                                                            .getPackageName(fqcn))
-                                            .className(
-                                                    ClassUtils
-                                                            .getShortClassName(fqcn))
+                            String fqcn = x.getReturnType().getType().getPackageName() + "."
+                                    + x.getReturnType().getType().getClassName();
+                            imports.putIfAbsent(fqcn,
+                                    ImportModel.builder()
+                                            .packageName(ClassUtils.getPackageName(fqcn))
+                                            .className(ClassUtils.getShortClassName(fqcn))
                                             .build());
                             // 返却値の総称型に対してインポートの収集を行う
-                            if (x.getReturnType().getType()
-                                    .getGenericTypes() != null) {
-                                x.getReturnType().getType()
-                                        .getGenericTypes().forEach(y -> {
+                            if (x.getReturnType().getType().getGenericTypes() != null) {
+                                x.getReturnType().getType().getGenericTypes().forEach(y -> {
                                     importCollect(y, imports);
                                 });
                             }
@@ -659,8 +582,7 @@ public class Java8Generator extends JavaGenerator {
         // インタフェースで、デフォルトメソッドを持たないものはブロックの出力は不要
         if (classModel.getClassKind() == ClassKind.INTERFACE) {
             for (MethodModel mm : classModel.getMethods()) {
-                if (mm.getMethodModifiers().stream()
-                        .noneMatch(x -> x == MethodModifier.DEFAULT)) {
+                if (mm.getMethodModifiers().stream().noneMatch(x -> x == MethodModifier.DEFAULT)) {
                     mm.setNoneBlockMethod(true);
                 }
             }
@@ -670,8 +592,7 @@ public class Java8Generator extends JavaGenerator {
         if (classModel.getClassKind() != ClassKind.INTERFACE) {
             for (MethodModel mm : classModel.getMethods()) {
                 if (CollectionUtils.isNotEmpty(mm.getMethodModifiers())
-                        && mm.getMethodModifiers().stream()
-                        .anyMatch(x -> x == MethodModifier.ABSTRACT)) {
+                        && mm.getMethodModifiers().stream().anyMatch(x -> x == MethodModifier.ABSTRACT)) {
                     mm.setNoneBlockMethod(true);
                 }
             }
@@ -699,8 +620,7 @@ public class Java8Generator extends JavaGenerator {
      * {@inheritDoc}
      */
     @Override
-    protected void afterTarget(GenerateContext context,
-                               GenerateTarget generateTarget) throws Exception {
+    protected void afterTarget(GenerateContext context, GenerateTarget generateTarget) throws Exception {
         // Do nothing
     }
 

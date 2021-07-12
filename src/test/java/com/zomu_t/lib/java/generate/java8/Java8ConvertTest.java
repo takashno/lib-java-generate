@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8;
 
 import com.zomu_t.lib.java.generate.common.context.GenerateContext;
@@ -41,14 +42,19 @@ public class Java8ConvertTest {
         clazz.setPackageName("hoge.fuga.piyo");
 
         // インポート定義
-        ImportModel im1 = ImportModel.builder().packageName("hoge.fuga.piyo")
-                .className("ClassName").methodName("methodName").build();
+        ImportModel im1 = ImportModel.builder()
+                .packageName("hoge.fuga.piyo")
+                .className("ClassName")
+                .methodName("methodName")
+                .build();
 
-        ImportModel im2 = ImportModel.builder().packageName("ahoge.fuga.piyo")
-                .className("ClassName").methodName("methodName").build();
+        ImportModel im2 = ImportModel.builder()
+                .packageName("ahoge.fuga.piyo")
+                .className("ClassName")
+                .methodName("methodName")
+                .build();
 
-        ImportModel im3 = ImportModel.builder().packageName("java.util")
-                .className("List").build();
+        ImportModel im3 = ImportModel.builder().packageName("java.util").className("List").build();
 
         // im1.setStaticImport(true);
         clazz.setImports(new ArrayList<ImportModel>());
@@ -56,30 +62,28 @@ public class Java8ConvertTest {
         clazz.getImports().add(im2);
         clazz.getImports().add(im3);
 
-        JavaDocAnnotationModel jdam1 = JavaDocAnnotationModel.builder()
-                .name("author").content("takashno").build();
+        JavaDocAnnotationModel jdam1 = JavaDocAnnotationModel.builder().name("author").content("takashno").build();
 
-        JavaDocAnnotationModel jdam2 = JavaDocAnnotationModel.builder()
-                .name("since").content("v0.0.1").build();
+        JavaDocAnnotationModel jdam2 = JavaDocAnnotationModel.builder().name("since").content("v0.0.1").build();
 
         // JavaDoc
-        JavaDocModel typeJavaDoc = JavaDocModel.builder().mainContent("1行目")
-                .mainContent("2行目").mainContent("3行目").annotation(jdam1)
-                .annotation(jdam2).build();
+        JavaDocModel typeJavaDoc = JavaDocModel.builder()
+                .mainContent("1行目")
+                .mainContent("2行目")
+                .mainContent("3行目")
+                .annotation(jdam1)
+                .annotation(jdam2)
+                .build();
 
         clazz.setJavaDoc(typeJavaDoc);
 
         // クラスアノテーション
-        AnnotationModel typeAnnotation1 = AnnotationModel
-                .builder()
+        AnnotationModel typeAnnotation1 = AnnotationModel.builder()
                 .packageName("lombok")
                 .className("Data")
-                .attribute(AnnotationAttributeModel.builder()
-                        .stringAttr(true)
-                        .name("value")
-                        .value("値")
-                        .build())
-                .last(true).build();
+                .attribute(AnnotationAttributeModel.builder().stringAttr(true).name("value").value("値").build())
+                .last(true)
+                .build();
 
         clazz.setAnnotations(new ArrayList<AnnotationModel>());
         clazz.getAnnotations().add(typeAnnotation1);
@@ -94,10 +98,8 @@ public class Java8ConvertTest {
         clazz.setClassName("ConvertSample");
 
         clazz.setGenericTypes(new ArrayList<ClassModel>());
-        clazz.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Hoge"));
-        clazz.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Fuga"));
+        clazz.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Hoge"));
+        clazz.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Fuga"));
 
         // ----------------------------------
         // 親クラス
@@ -106,10 +108,8 @@ public class Java8ConvertTest {
         superClass.setPackageName("hoge.fuga.piyo");
         superClass.setClassName("AbstractSuperClass");
         superClass.setGenericTypes(new ArrayList<ClassModel>());
-        superClass.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Hoge"));
-        superClass.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Fuga"));
+        superClass.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Hoge"));
+        superClass.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Fuga"));
         clazz.setSuperClass(superClass);
 
         // ----------------------------------
@@ -119,10 +119,8 @@ public class Java8ConvertTest {
         implementsClass1.setPackageName("hoge.fuga.piyo");
         implementsClass1.setClassName("ImplementsClass1");
         implementsClass1.setGenericTypes(new ArrayList<ClassModel>());
-        implementsClass1.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Hoge"));
-        implementsClass1.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Fuga"));
+        implementsClass1.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Hoge"));
+        implementsClass1.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Fuga"));
 
         clazz.setImplementsClasses(new ArrayList<ClassModel>());
         clazz.getImplementsClasses().add(implementsClass1);
@@ -131,30 +129,24 @@ public class Java8ConvertTest {
         implementsClass2.setPackageName("hoge.fuga.piyo");
         implementsClass2.setClassName("ImplementsClass2");
         implementsClass2.setGenericTypes(new ArrayList<ClassModel>());
-        implementsClass2.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Hoge"));
-        implementsClass2.getGenericTypes().add(
-                TypeUtils.getGenericClassModel("com.example", "Fuga"));
+        implementsClass2.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Hoge"));
+        implementsClass2.getGenericTypes().add(TypeUtils.getGenericClassModel("com.example", "Fuga"));
         clazz.getImplementsClasses().add(implementsClass2);
 
         // ----------------------------------
         // フィールド
         // ----------------------------------
         // フィールド1
-        FieldModel fm1 = FieldUtils.getStringFieldModel("strProp1",
-                "Stringプロパティ1");
+        FieldModel fm1 = FieldUtils.getStringFieldModel("strProp1", "Stringプロパティ1");
         fm1.setInitializationValue("\"aaa\"");
         fm1.setAccessModifier(AccessModifier.PRIVATE);
         AnnotationModel fieldAnnotation1 = new AnnotationModel();
         fieldAnnotation1.setPackageName("lombok");
         fieldAnnotation1.setClassName("NotEmpty");
 
-        fieldAnnotation1
-                .setAttributes(new ArrayList<AnnotationAttributeModel>());
-        fieldAnnotation1.getAttributes().add(
-                new AnnotationAttributeModel(true, "value", "値", true));
-        fieldAnnotation1.getAttributes().add(
-                new AnnotationAttributeModel(true, "name", "名前", true));
+        fieldAnnotation1.setAttributes(new ArrayList<AnnotationAttributeModel>());
+        fieldAnnotation1.getAttributes().add(new AnnotationAttributeModel(true, "value", "値", true));
+        fieldAnnotation1.getAttributes().add(new AnnotationAttributeModel(true, "name", "名前", true));
         fieldAnnotation1.setLast(true);
 
         fm1.setAnnotations(new ArrayList<AnnotationModel>());
@@ -163,10 +155,8 @@ public class Java8ConvertTest {
         fieldAnnotation2.setPackageName("lombok");
         fieldAnnotation2.setClassName("Pattern");
 
-        fieldAnnotation2
-                .setAttributes(new ArrayList<AnnotationAttributeModel>());
-        fieldAnnotation2.getAttributes().add(
-                new AnnotationAttributeModel(true, "regexp", "値", true));
+        fieldAnnotation2.setAttributes(new ArrayList<AnnotationAttributeModel>());
+        fieldAnnotation2.getAttributes().add(new AnnotationAttributeModel(true, "regexp", "値", true));
         fieldAnnotation2.setLast(true);
         fm1.getAnnotations().add(fieldAnnotation2);
 
@@ -174,8 +164,7 @@ public class Java8ConvertTest {
         clazz.getFields().add(fm1);
 
         // フィールド2
-        FieldModel fm2 = FieldUtils.getStringFieldModel("strProp2",
-                "Stringプロパティ2");
+        FieldModel fm2 = FieldUtils.getStringFieldModel("strProp2", "Stringプロパティ2");
         clazz.getFields().add(fm2);
 
         target.setClazz(clazz);
@@ -190,29 +179,26 @@ public class Java8ConvertTest {
         // メソッド1
         MethodModel mm1 = new MethodModel();
         mm1.setAccessModifier(AccessModifier.PUBLIC);
-        ReturnModel rm1 = ReturnModel.builder()
-                .type(TypeUtils.getStringClassModel()).build();
+        ReturnModel rm1 = ReturnModel.builder().type(TypeUtils.getStringClassModel()).build();
         mm1.setReturnType(rm1);
         mm1.setName("method1");
 
         mm1.setAnnotations(new ArrayList<AnnotationModel>());
-        mm1.getAnnotations().add(
-                AnnotationModel.builder().packageName("com.example")
-                        .className("GetMapping").last(false).build());
+        mm1.getAnnotations()
+                .add(AnnotationModel.builder().packageName("com.example").className("GetMapping").last(false).build());
         JavaDocAnnotationModel jdam3 = JavaDocAnnotationModel.builder()
-                .name("param").content("test").content("テスト値").build();
+                .name("param")
+                .content("test")
+                .content("テスト値")
+                .build();
         mm1.setJavaDoc(JavaDocUtils.getMethodJavaDocModel("メソッド1です.", jdam3));
-        ArgModel am1 = ArgModel.builder().type(TypeUtils.getStringClassModel())
-                .name("arg1").build();
+        ArgModel am1 = ArgModel.builder().type(TypeUtils.getStringClassModel()).name("arg1").build();
         mm1.setArgs(new ArrayList<ArgModel>());
         mm1.getArgs().add(am1);
-        ArgModel am2 = ArgModel.builder().type(TypeUtils.getStringClassModel())
-                .name("arg2").build();
+        ArgModel am2 = ArgModel.builder().type(TypeUtils.getStringClassModel()).name("arg2").build();
         mm1.getArgs().add(am2);
         mm1.setThrowsTypes(new ArrayList<ClassModel>());
-        mm1.getThrowsTypes().add(
-                TypeUtils.getGenericClassModel("com.example",
-                        "OriginalException"));
+        mm1.getThrowsTypes().add(TypeUtils.getGenericClassModel("com.example", "OriginalException"));
         mm1.setMethodModifiers(new ArrayList<MethodModifier>());
         mm1.getMethodModifiers().add(MethodModifier.ABSTRACT);
 
@@ -227,29 +213,26 @@ public class Java8ConvertTest {
         // メソッド2
         MethodModel mm2 = new MethodModel();
         mm2.setAccessModifier(AccessModifier.PUBLIC);
-        ReturnModel rm2 = ReturnModel.builder()
-                .type(TypeUtils.getStringClassModel()).build();
+        ReturnModel rm2 = ReturnModel.builder().type(TypeUtils.getStringClassModel()).build();
         mm2.setReturnType(rm2);
         mm2.setName("method2");
 
         mm2.setAnnotations(new ArrayList<AnnotationModel>());
-        mm2.getAnnotations().add(
-                AnnotationModel.builder().packageName("com.example")
-                        .className("GetMapping").last(false).build());
+        mm2.getAnnotations()
+                .add(AnnotationModel.builder().packageName("com.example").className("GetMapping").last(false).build());
         JavaDocAnnotationModel jdam4 = JavaDocAnnotationModel.builder()
-                .name("param").content("test").content("テスト値").build();
+                .name("param")
+                .content("test")
+                .content("テスト値")
+                .build();
         mm2.setJavaDoc(JavaDocUtils.getMethodJavaDocModel("メソッド1です.", jdam4));
-        ArgModel am3 = ArgModel.builder().type(TypeUtils.getStringClassModel())
-                .name("arg1").build();
+        ArgModel am3 = ArgModel.builder().type(TypeUtils.getStringClassModel()).name("arg1").build();
         mm2.setArgs(new ArrayList<ArgModel>());
         mm2.getArgs().add(am3);
-        ArgModel am4 = ArgModel.builder().type(TypeUtils.getStringClassModel())
-                .name("arg2").build();
+        ArgModel am4 = ArgModel.builder().type(TypeUtils.getStringClassModel()).name("arg2").build();
         mm2.getArgs().add(am4);
         mm2.setThrowsTypes(new ArrayList<ClassModel>());
-        mm2.getThrowsTypes().add(
-                TypeUtils.getGenericClassModel("com.example",
-                        "OriginalException"));
+        mm2.getThrowsTypes().add(TypeUtils.getGenericClassModel("com.example", "OriginalException"));
         mm2.setMethodModifiers(new ArrayList<MethodModifier>());
 
         // mm1.setLogic(LogicModel.builder().name("hoge").build());

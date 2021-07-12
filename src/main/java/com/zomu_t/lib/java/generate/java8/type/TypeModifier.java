@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.type;
 
 import lombok.AllArgsConstructor;
@@ -13,19 +14,19 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TypeModifier {
 
-	/** final */
-	FINAL,
+    /** final */
+    FINAL,
 
-	/** abstract */
-	ABSTRACT;
+    /** abstract */
+    ABSTRACT;
 
-	/**
-	 * 文字列表現を返却します.
-	 * 
-	 * @return 文字列表現
-	 */
-	@Override
-	public String toString() {
-		return super.toString().toLowerCase();
-	}
+    /**
+     * 文字列表現を返却します.
+     * 
+     * @return 文字列表現
+     */
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
 }

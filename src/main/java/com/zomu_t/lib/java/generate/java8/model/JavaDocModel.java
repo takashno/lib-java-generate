@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
@@ -19,19 +20,19 @@ import lombok.*;
 @NoArgsConstructor
 public class JavaDocModel implements Serializable {
 
-	/** デフォルトシリアルバージョンUID */
-	private static final long serialVersionUID = 1L;
+    /** デフォルトシリアルバージョンUID */
+    private static final long serialVersionUID = 1L;
 
-	/** JavaDocのメイン文章.基本的にリストの1要素が1行の扱いとする. */
-	@Singular
-	private List<String> mainContents;
+    /** JavaDocのメイン文章.基本的にリストの1要素が1行の扱いとする. */
+    @Singular
+    private List<String> mainContents;
 
-	/** inheritDocフラグ */
-	@Builder.Default
-	private boolean inheritDoc = false;
+    /** inheritDocフラグ */
+    @Builder.Default
+    private boolean inheritDoc = false;
 
-	/** アノテーション */
-	@Singular
-	private List<JavaDocAnnotationModel> annotations;
+    /** アノテーション */
+    @Singular
+    private List<JavaDocAnnotationModel> annotations;
 
 }

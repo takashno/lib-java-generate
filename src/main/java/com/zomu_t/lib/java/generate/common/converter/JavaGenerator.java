@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.common.converter;
 
 import java.io.StringWriter;
@@ -38,8 +39,7 @@ public abstract class JavaGenerator {
      *
      * @param context {@link GenerateContext}
      */
-    protected abstract void beforeTarget(GenerateContext context,
-                                         GenerateTarget generateTarget) throws Exception;
+    protected abstract void beforeTarget(GenerateContext context, GenerateTarget generateTarget) throws Exception;
 
     /**
      * 後処理
@@ -53,8 +53,7 @@ public abstract class JavaGenerator {
      *
      * @param context {@link GenerateContext}
      */
-    protected abstract void afterTarget(GenerateContext context,
-                                        GenerateTarget generateTarget) throws Exception;
+    protected abstract void afterTarget(GenerateContext context, GenerateTarget generateTarget) throws Exception;
 
     /**
      * 変換処理
@@ -119,16 +118,14 @@ public abstract class JavaGenerator {
                     System.out.println(sw.toString());
 
                     // フォーマット処理
-                    String formattedSource = new Formatter().formatSource(sw
-                            .toString());
+                    String formattedSource = new Formatter().formatSource(sw.toString());
 
                     // 指定されたWriterへ書き込む
                     target.getOutputWriter().write(formattedSource);
                     target.getOutputWriter().flush();
 
                 } else {
-                    m.execute(target.getOutputWriter(), scopes.toArray())
-                            .flush();
+                    m.execute(target.getOutputWriter(), scopes.toArray()).flush();
                 }
 
                 // 個別変換対象 - 後処理
@@ -137,8 +134,7 @@ public abstract class JavaGenerator {
             } catch (Exception e) {
                 if (context.isOnErrorResume()) {
                     // エラーが出ても続ける場合は、そのまま続行.
-                    GenerateFailureTarget cft = new GenerateFailureTarget(target,
-                            e);
+                    GenerateFailureTarget cft = new GenerateFailureTarget(target, e);
                     context.getFailureTargets().add(cft);
                     continue;
                 } else {
@@ -148,10 +144,8 @@ public abstract class JavaGenerator {
             }
         }
 
-        if (context.isOnErrorResume()
-                && CollectionUtils.isNotEmpty(context.getFailureTargets())) {
-            log.debug("generate failure target : {}", context
-                    .getFailureTargets().size());
+        if (context.isOnErrorResume() && CollectionUtils.isNotEmpty(context.getFailureTargets())) {
+            log.debug("generate failure target : {}", context.getFailureTargets().size());
         }
 
         // 後処理

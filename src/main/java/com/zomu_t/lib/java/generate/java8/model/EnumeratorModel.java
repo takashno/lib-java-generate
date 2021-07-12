@@ -1,5 +1,5 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.model;
-
 
 import lombok.*;
 
@@ -42,7 +42,6 @@ public class EnumeratorModel implements Serializable {
      * 最終フラグ
      */
     private boolean last = false;
-
 
     /**
      * Builder.<br>

@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.util;
 
 import java.util.Arrays;
@@ -28,10 +29,8 @@ public final class JavaDocUtils {
      * @return
      */
     public static JavaDocModel getMethodJavaDocModel(String javaDocContents,
-                                                     JavaDocAnnotationModel... annotationModels) {
-        return getMethodJavaDocModel(
-                Arrays.asList(new String[]{javaDocContents}),
-                annotationModels);
+            JavaDocAnnotationModel... annotationModels) {
+        return getMethodJavaDocModel(Arrays.asList(new String[] { javaDocContents }), annotationModels);
     }
 
     /**
@@ -40,13 +39,13 @@ public final class JavaDocUtils {
      * @param javaDocContents
      * @return
      */
-    public static JavaDocModel getMethodJavaDocModel(
-            List<String> javaDocContents,
+    public static JavaDocModel getMethodJavaDocModel(List<String> javaDocContents,
             JavaDocAnnotationModel... annotationModels) {
         if (annotationModels != null) {
             return JavaDocModel.builder()
                     .mainContents(javaDocContents)
-                    .annotations(Arrays.asList(annotationModels)).build();
+                    .annotations(Arrays.asList(annotationModels))
+                    .build();
         } else {
             return JavaDocModel.builder().build();
         }

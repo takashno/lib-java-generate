@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.util;
 
 import java.util.Arrays;
@@ -49,8 +50,7 @@ public class TypeUtils {
      * @return shortのクラスモデル
      */
     public ClassModel getPrimitiveShortClassModel() {
-        return ClassModel.builder().className("short").primitive(true)
-                .build();
+        return ClassModel.builder().className("short").primitive(true).build();
     }
 
     /**
@@ -81,8 +81,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getLongClassModel() {
-        ClassModel cm = ClassModel.builder().packageName("java.lang")
-                .className("Long").build();
+        ClassModel cm = ClassModel.builder().packageName("java.lang").className("Long").build();
         return cm;
     }
 
@@ -102,8 +101,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getDoubleClassModel() {
-        ClassModel cm = ClassModel.builder().packageName("java.lang")
-                .className("Double").build();
+        ClassModel cm = ClassModel.builder().packageName("java.lang").className("Double").build();
         return cm;
     }
 
@@ -113,8 +111,7 @@ public class TypeUtils {
      * @return doubleのクラスモデル
      */
     public ClassModel getPrimitiveDoubleClassModel() {
-        return ClassModel.builder().className("double").primitive(true)
-                .build();
+        return ClassModel.builder().className("double").primitive(true).build();
     }
 
     /**
@@ -123,8 +120,7 @@ public class TypeUtils {
      * @return Floatのクラスモデル
      */
     public ClassModel getFloatClassModel() {
-        return ClassModel.builder().packageName("java.lang")
-                .className("Float").build();
+        return ClassModel.builder().packageName("java.lang").className("Float").build();
     }
 
     /**
@@ -133,8 +129,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getPrimitiveFloatClassModel() {
-        ClassModel cm = ClassModel.builder().className("float").primitive(true)
-                .build();
+        ClassModel cm = ClassModel.builder().className("float").primitive(true).build();
         return cm;
     }
 
@@ -144,8 +139,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getBooleanClassModel() {
-        ClassModel cm = ClassModel.builder().packageName("java.lang")
-                .className("Boolean").build();
+        ClassModel cm = ClassModel.builder().packageName("java.lang").className("Boolean").build();
         return cm;
     }
 
@@ -155,8 +149,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getPrimitiveBooleanClassModel() {
-        ClassModel cm = ClassModel.builder().className("boolean").primitive(true)
-                .build();
+        ClassModel cm = ClassModel.builder().className("boolean").primitive(true).build();
         return cm;
     }
 
@@ -166,8 +159,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getByteClassModel() {
-        ClassModel cm = ClassModel.builder().packageName("java.lang")
-                .className("Byte").build();
+        ClassModel cm = ClassModel.builder().packageName("java.lang").className("Byte").build();
         return cm;
     }
 
@@ -187,8 +179,7 @@ public class TypeUtils {
      * @return
      */
     public ClassModel getCharacterClassModel() {
-        ClassModel cm = ClassModel.builder().packageName("java.lang")
-                .className("Character").build();
+        ClassModel cm = ClassModel.builder().packageName("java.lang").className("Character").build();
         return cm;
     }
 
@@ -210,10 +201,11 @@ public class TypeUtils {
      * @param genericTypes
      * @return
      */
-    public ClassModel getGenericClassModel(String packageName,
-                                           String className, ClassModel... genericTypes) {
-        ClassModel cm = ClassModel.builder().packageName(packageName)
-                .className(className).genericTypes(Arrays.asList(genericTypes))
+    public ClassModel getGenericClassModel(String packageName, String className, ClassModel... genericTypes) {
+        ClassModel cm = ClassModel.builder()
+                .packageName(packageName)
+                .className(className)
+                .genericTypes(Arrays.asList(genericTypes))
                 .build();
         return cm;
     }
@@ -225,18 +217,12 @@ public class TypeUtils {
      */
     public void setImplementsSerializable(ClassModel classModel) {
 
-        classModel.
-                getImplementsClasses().add(
-                ClassModel.builder()
-                        .packageName("java.io")
-                        .className("Serializable")
-                        .build());
+        classModel.getImplementsClasses()
+                .add(ClassModel.builder().packageName("java.io").className("Serializable").build());
 
-        classModel.getFields().add(0,
-                FieldModel.builder()
-                        .javaDoc(JavaDocModel.builder()
-                                .mainContent("デフォルトシリアルバージョンUID")
-                                .build())
+        classModel.getFields()
+                .add(0, FieldModel.builder()
+                        .javaDoc(JavaDocModel.builder().mainContent("デフォルトシリアルバージョンUID").build())
                         .accessModifier(AccessModifier.PRIVATE)
                         .fieldModifier(FieldModifier.STATIC)
                         .fieldModifier(FieldModifier.FINAL)

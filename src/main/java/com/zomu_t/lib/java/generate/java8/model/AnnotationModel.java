@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
@@ -18,31 +19,31 @@ import lombok.*;
 @NoArgsConstructor
 public class AnnotationModel implements Serializable {
 
-	/** デフォルトシリアルバージョンUID */
-	private static final long serialVersionUID = 1L;
+    /** デフォルトシリアルバージョンUID */
+    private static final long serialVersionUID = 1L;
 
-	/** パッケージ名 */
-	@NonNull
-	private String packageName;
+    /** パッケージ名 */
+    @NonNull
+    private String packageName;
 
-	/** クラス名 */
-	@NonNull
-	private String className;
+    /** クラス名 */
+    @NonNull
+    private String className;
 
-	/** 属性 */
-	@Singular
-	private List<AnnotationAttributeModel> attributes;
+    /** 属性 */
+    @Singular
+    private List<AnnotationAttributeModel> attributes;
 
-	/** 最終フラグ */
-	@Builder.Default
-	private boolean last = false;
+    /** 最終フラグ */
+    @Builder.Default
+    private boolean last = false;
 
-	/**
-	 * 属性を保持しているかどうか判定します.
-	 * 
-	 * @return
-	 */
-	public boolean hasAttributes() {
-		return attributes == null ? false : attributes.size() > 0;
-	}
+    /**
+     * 属性を保持しているかどうか判定します.
+     * 
+     * @return
+     */
+    public boolean hasAttributes() {
+        return attributes == null ? false : attributes.size() > 0;
+    }
 }

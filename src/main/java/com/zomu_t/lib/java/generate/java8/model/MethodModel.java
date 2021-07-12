@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
@@ -89,7 +90,6 @@ public class MethodModel implements Serializable {
     public boolean hasThrowTypes() {
         return throwsTypes == null ? false : throwsTypes.size() > 0;
     }
-
 
     public void addMethodModifiers(MethodModifier methodModifier) {
         this.methodModifiers.add(methodModifier);

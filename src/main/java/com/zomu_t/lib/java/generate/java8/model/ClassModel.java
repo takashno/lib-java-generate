@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.model;
 
 import com.zomu_t.lib.java.generate.common.model.Clazz;
@@ -137,7 +138,6 @@ public class ClassModel implements Clazz, Serializable {
     public boolean hasImplementsClasses() {
         return implementsClasses != null && implementsClasses.size() > 0;
     }
-
 
     /**
      * Builder.<br>
@@ -343,25 +343,10 @@ public class ClassModel implements Clazz, Serializable {
         }
 
         public ClassModel build() {
-            return new ClassModel(
-                    this.commentHeader,
-                    this.packageName,
-                    this.imports,
-                    this.javaDoc,
-                    this.annotations,
-                    this.accessModifier,
-                    this.typeModifier,
-                    this.classKind,
-                    this.className,
-                    this.superClass,
-                    this.implementsClasses,
-                    this.genericTypes,
-                    this.enumerators,
-                    this.fields,
-                    this.constructors,
-                    this.methods,
-                    this.primitive,
-                    this.last);
+            return new ClassModel(this.commentHeader, this.packageName, this.imports, this.javaDoc, this.annotations,
+                    this.accessModifier, this.typeModifier, this.classKind, this.className, this.superClass,
+                    this.implementsClasses, this.genericTypes, this.enumerators, this.fields, this.constructors,
+                    this.methods, this.primitive, this.last);
         }
 
     }
@@ -369,6 +354,5 @@ public class ClassModel implements Clazz, Serializable {
     public static ClassModelBuilder builder() {
         return new ClassModelBuilder();
     }
-
 
 }

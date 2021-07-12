@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.zomu_t.lib.java.generate.java8.model;
 
 import java.io.Serializable;
@@ -20,31 +21,31 @@ import lombok.experimental.Delegate;
 @NoArgsConstructor
 public class ArgModel implements Serializable {
 
-	/** デフォルトシリアルバージョンUID */
-	private static final long serialVersionUID = 1L;
+    /** デフォルトシリアルバージョンUID */
+    private static final long serialVersionUID = 1L;
 
-	/** 修飾子 */
-	private ArgModifier argModifier;
+    /** 修飾子 */
+    private ArgModifier argModifier;
 
-	/** アノテーション */
-	@Delegate
-	@Singular
-	private List<AnnotationModel> annotations;
+    /** アノテーション */
+    @Delegate
+    @Singular
+    private List<AnnotationModel> annotations;
 
-	/** 型 */
-	@NonNull
-	private ClassModel type;
+    /** 型 */
+    @NonNull
+    private ClassModel type;
 
-	/** 名称 */
-	@NonNull
-	private String name;
+    /** 名称 */
+    @NonNull
+    private String name;
 
-	/** 配列フラグ */
-	@Builder.Default
-	private boolean array = false;
+    /** 配列フラグ */
+    @Builder.Default
+    private boolean array = false;
 
-	/** 最終フラグ */
-	@Builder.Default
-	private boolean last = false;
+    /** 最終フラグ */
+    @Builder.Default
+    private boolean last = false;
 
 }

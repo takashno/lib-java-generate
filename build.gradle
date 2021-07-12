@@ -3,10 +3,11 @@ plugins {
 	id 'java-library'
 	id 'eclipse'
 	id 'idea'
+	id 'signing'
 	id 'maven'
 	id 'maven-publish'
 	id 'jacoco'
-	id "com.jfrog.bintray" version "1.8.4"
+	id "com.diffplug.gradle.spotless"
 }
 
 ext {
@@ -16,7 +17,7 @@ ext {
 	versionPatch = 3
 
 	// アーティファクト関連
-	group 'com.zomu_t'
+	group 'com.t-zomu.libs'
 	version "${versionMajor}.${versionMinor}.${versionPatch}"
 
 	// Document
@@ -24,11 +25,19 @@ ext {
 
 	// SCM（GitHub）
 	githubUrl = 'https://github.com/takashno/lib-java-generate'
+
+	// Sonatype Repo Urls
+	releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+	snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+
+	// developper
+	developperId = 'takashno'
+	developperName = 'Nozomu Takashima'
+	developperEmail = 'epion.tropic.test.tool@gmail.com'
 }
 
 repositories {
 	mavenCentral()
-	jcenter()
 }
 
 dependencies {
@@ -59,26 +68,23 @@ tasks.withType(Javadoc) {
 
 // Java
 tasks.withType(JavaCompile) {
-	sourceCompatibility = '1.8'
-	targetCompatibility = '1.8'
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
 	it.options.encoding = 'UTF-8'
 }
 
-// JavaDoc Jar packaging
-task packageJavadoc(type: Jar, dependsOn: javadoc) {
-	from javadoc.destinationDir
-	classifier = 'javadoc'
+java {
+	withJavadocJar()
+	withSourcesJar()
 }
 
-// Source Jar Packaging
-task packageSources(type: Jar, dependsOn: classes) {
-	from sourceSets.main.allSource
-	classifier = 'source'
-}
-
-artifacts {
-	archives packageJavadoc
-	archives packageSources
+spotless {
+	java {
+		enforceCheck = true
+		licenseHeaderFile rootProject.file('./formatter/LICENSE')
+		eclipse().configFile rootProject.file('./formatter/formatter.xml')
+		lineEndings 'UNIX'
+	}
 }
 
 // CodeCov
@@ -101,57 +107,57 @@ codeCoverageReport.dependsOn {
 	subprojects*.test
 }
 
-// Library Publish
-bintray {
-	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-	configurations = ['archives']
-
-	pkg {
-		repo = 'takashno_maven_repo'
-		name = project.name
-		userOrg = 'takashno'
-		licenses = ['Apache-2.0']
-		websiteUrl = siteUrl
-		issueTrackerUrl = githubUrl + '/blob/master/LICENSE'
-		vcsUrl = githubUrl + '.git'
-		issueTrackerUrl = githubUrl + '/issues'
-		publicDownloadNumbers = true
-		version {
-			name = project.version
-		}
-	}
-}
-
-install {
-	repositories.mavenInstaller {
-		pom.project {
-			name project.name
-			url siteUrl
-
-			packaging 'jar'
-			groupId project.group
-			artifactId project.name
-			version project.version
-
-			licenses {
-				license {
-					name 'Apache License 2.0'
-					url 'http://www.apache.org/licenses/'
-					distribution 'repo'
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId = project.name
+			version = project.hasProperty('snapshot') ? project.version + '-SNAPSHOT' : project.version
+			from components.java
+			pom {
+				name = project.name
+				description = "java code generate library"
+				url = "https://github.com/takashno/${project.name}"
+				licenses {
+					license {
+						name = 'The Apache License, Version 2.0'
+						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					}
+				}
+				developers {
+					developer {
+						id = project.developperId
+						name = project.developperName
+						email = project.developperEmail
+					}
+				}
+				scm {
+					connection = "scm:git:git://github.com/takashno/${project.name}.git"
+					developerConnection = "git@github.com:takashno/${project.name}.git"
+					url = "${project.githubUrl}"
 				}
 			}
-			scm {
-				connection githubUrl + '.git'
-				url githubUrl
+		}
+	}
+	repositories {
+		maven {
+			name="OSSRH"
+			url = project.hasProperty('snapshot') ? project.snapshotsRepoUrl : project.releasesRepoUrl
+			def sonatypeUser = project.hasProperty('sonatypeUser') ? project.property('sonatypeUser') : System.getenv('MAVEN_USERNAME')
+			def sonatypePassword = project.hasProperty('sonatypePassword') ? project.property('sonatypePassword') : System.getenv('MAVEN_PASSWORD')
+			credentials {
+				username = sonatypeUser
+				password = sonatypePassword
 			}
 		}
 	}
 }
 
-task publishJavaDoc(type: Copy) {
-	from ('build/docs/javadoc') {
-		include '**/*.*'
+signing {
+	sign publishing.publications.mavenJava
+}
+
+javadoc {
+	if (JavaVersion.current().isJava9Compatible()) {
+		options.addBooleanOption('html5', true)
 	}
-	into 'docs'
 }
